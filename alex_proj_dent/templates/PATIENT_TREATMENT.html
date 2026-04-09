@@ -1,0 +1,48 @@
+{% load static %}
+<!doctype html>
+<html lang="ar">
+    <head>
+        <meta charset="UTF-8" />
+        <title>إدارة أدوية المريض</title>
+        <link rel="stylesheet" href="{% static 'css/PATIENT_TREATMENTS.css' %}" />
+        <script src="{% static 'js/PATIENT_TREATMENTS.js' %}" defer></script>
+    </head>
+    <body>
+        <div class="container">
+            <h2>أدوية المريض</h2>
+
+            <!-- إدخال رقم المريض، رقم الدكتور، ورقم الزيارة مع ليبل -->
+            <div class="inputs">
+                <div class="input-group">
+                    <label for="patientIdInput">رقم المريض:</label>
+                    <input type="number" id="patientIdInput" value="2601" />
+                </div>
+                <div class="input-group">
+                    <label for="doctorIdInput">رقم الدكتور:</label>
+                    <input type="number" id="doctorIdInput" value="1" />
+                </div>
+                <div class="input-group">
+                    <label for="visitNumberInput">رقم الزيارة:</label>
+                    <input type="number" id="visitNumberInput" value="1" />
+                </div>
+                <button id="fetchPatientDrugsBtn" class="save-btn">جلب أدوية المريض</button>
+            </div>
+
+            <!-- عرض أدوية المريض المسجلة -->
+            <div class="patient-results" id="patientDrugsResults"></div>
+
+            <hr />
+
+            <!-- البحث في أدوية العيادة لإضافة أدوية جديدة -->
+            <div class="search-section">
+                <input type="text" id="drugSearch" placeholder="اكتب اسم الدواء لإضافته" />
+                <div class="results" id="drugResults"></div>
+                <button id="saveBtn" class="save-btn">حفظ/تحديث أدوية المريض</button>
+            </div>
+            <a href="{% url 'supervisor_home' %}" class="back-link">⬅ العودة إلى الصفحة الرئيسية</a>
+        </div>
+        </div>
+
+        <!-- تحسين التنسيق -->
+    </body>
+</html>

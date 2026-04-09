@@ -1,0 +1,145 @@
+{% load static %}
+<!doctype html>
+<html lang="ar" dir="rtl">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>الفاتورة الذهبية | نظام العيادات</title>
+        <link rel="icon" type="image/x-icon" href="{% static 'img/favicon.ico' %}" />
+        <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="{% static 'css/invoice.css' %}" />
+    </head>
+    <body>
+        <div class="invoice-wrapper">
+            <div class="invoice-card">
+                <!-- الهيدر الفاخر -->
+                <div class="invoice-header">
+                    <div class="header-decoration"></div>
+                    <div class="header-content">
+                        <div class="logo-section">
+                            <div class="logo-icon">🦷</div>
+                            <h1>الفاتورة الذهبية</h1>
+                        </div>
+                        <div class="clinic-info">
+                            <p class="clinic-name">عيادات الأسنان المتخصصة</p>
+                            <p class="invoice-date">
+                                <span class="date-icon">📅</span>
+                                <span id="todayDate"></span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- اختيار العيادة -->
+                <div class="clinic-selector">
+                    <div class="selector-icon">🏥</div>
+                    <select id="clinicSelect" class="clinic-select">
+                        <option value="">-- جاري تحميل العيادات --</option>
+                    </select>
+                    <div class="selector-glow"></div>
+                </div>
+
+                <!-- البحث عن المريض -->
+                <div class="search-section" id="searchSection" style="display: none;">
+                    <div class="search-container">
+                        <div class="search-icon">🔍</div>
+                        <input type="text" id="patientNumber" class="search-input" placeholder="أدخل رقم المريض" />
+                        <button id="searchBtn" class="search-btn">
+                            <span>بحث</span>
+                            <span class="btn-glow"></span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- محتوى الفاتورة -->
+                <div id="invoiceContent" class="invoice-content" style="display: none;">
+                    <!-- معلومات المريض + العيادة + الدكتور -->
+                    <div class="patient-card">
+                        <div class="patient-avatar">👤</div>
+                        <div class="patient-details">
+                            <div class="patient-name">
+                                <span class="label">اسم المريض:</span>
+                                <span id="patientName" class="value">---</span>
+                            </div>
+                            <div class="patient-id">
+                                <span class="label">رقم المريض:</span>
+                                <span id="patientId" class="value">---</span>
+                            </div>
+                            <div class="clinic-name-card">
+                                <span class="label">🏥 العيادة:</span>
+                                <span id="clinicNameDisplay" class="value">---</span>
+                            </div>
+                            <div class="doctor-name-card">
+                                <span class="label">👨‍⚕️ الدكتور:</span>
+                                <span id="doctorNameDisplay" class="value">---</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- الفاتورة الحالية -->
+                    <div class="section-title">
+                        <span class="title-icon">💰</span>
+                        <h3>الفاتورة الحالية</h3>
+                        <div class="title-line"></div>
+                    </div>
+
+                    <div class="table-container">
+                        <table class="invoice-table">
+                            <thead>
+                                <tr>
+                                    <th class="checkbox-col"></th>
+                                    <th>البند</th>
+                                    <th class="price-col">السعر (ريال)</th>
+                                 </tr>
+                            </thead>
+                            <tbody id="invoiceTableBody"></tbody>
+                        </table>
+                    </div>
+
+                    <div class="total-section">
+                        <div class="total-label">الإجمالي الكلي</div>
+                        <div class="total-amount">
+                            <span id="grandTotal">0</span>
+                            <span class="currency">ريال</span>
+                        </div>
+                    </div>
+
+                    <button id="payBtn" class="pay-btn">
+                        <span>تأكيد الدفع</span>
+                        <span class="btn-icon">💳</span>
+                    </button>
+
+                    <!-- الزيارات القادمة -->
+                    <div class="section-title">
+                        <span class="title-icon">📅</span>
+                        <h3>الزيارات القادمة</h3>
+                        <div class="title-line"></div>
+                    </div>
+
+                    <div class="table-container">
+                        <table class="visits-table">
+                            <thead>
+                                <tr>
+                                    <th>رقم الزيارة</th>
+                                    <th>تاريخ الزيارة</th>
+                                    <th>الحالة</th>
+                                    <th>إجراء</th>
+                                 </tr>
+                            </thead>
+                            <tbody id="upcomingVisitsBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="doctor-selector" id="doctorSelectContainer" style="display: none;"></div>
+
+                <a href="{% url 'supervisor_home' %}" class="back-link">
+                    <span class="back-icon">←</span>
+                    العودة إلى الرئيسية
+                </a>
+            </div>
+        </div>
+
+        <script src="{% static 'js/invoice.js' %}"></script>
+    </body>
+</html>

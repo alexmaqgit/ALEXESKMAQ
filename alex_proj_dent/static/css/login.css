@@ -1,0 +1,89 @@
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #2c5364, #203a43, #0f2027);
+    color: #fff;
+}
+
+.login-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.login-card {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 30px;
+    border-radius: 15px;
+    width: 350px;
+    box-shadow: 0 0 20px rgba(0, 255, 204, 0.2);
+}
+
+.login-title {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+.logo-box {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.logo-box img {
+    width: 120px;
+}
+
+label {
+    display: block;
+    margin: 10px 0 5px;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.05);
+    color: #ab36ff;
+
+    box-sizing: border-box; /* هذا يجعل padding جزء من العرض */
+}
+.password-box {
+    position: relative;
+}
+
+.password-box input {
+    padding-right: 35px;
+}
+
+.toggle-pass {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 5px;
+    background: #00ffcc;
+    color: #000;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #00e6b8;
+}
+
+#errorMessage {
+    margin-top: 10px;
+    color: #ff4d4d;
+    text-align: center;
+}

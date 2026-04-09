@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}حجز موعد – عيادة الأسنان{% endblock %}
+
+{% block content %}
+    <div class="booking-card">
+        <!-- الهيدر -->
+        <div class="header">
+            <img src="{% static 'images/logo.png' %}" alt="شعار العيادة" />
+            <h2>🦷 حجز موعد – عيادة الأسنان</h2>
+        </div>
+
+        <!-- نموذج الحجز -->
+        <form id="bookingForm" method="post">
+            {% csrf_token %}
+
+            <label>الاسم الكامل</label>
+            <input type="text" name="full_name" required />
+
+            <label>رقم الهاتف</label>
+            <input type="text" name="phone" required />
+
+            <label>اختر التخصص</label>
+            <div class="custom-select">
+                <div class="placeholder">-- اختر التخصص --</div>
+                <ul class="options">
+                    <li data-value="surgery">جراحة</li>
+                    <li data-value="orthodontics">تثويم</li>
+                    <li data-value="cosmetic">تجميل</li>
+                </ul>
+                <input type="hidden" name="specialty" id="specialty" />
+            </div>
+
+            <label>اختر اليوم</label>
+            <div id="daysContainer" class="days"></div>
+
+            <label>اختر الوقت</label>
+            <div id="slotsBox" class="slots"></div>
+
+            <input type="hidden" id="slot_id" name="slot_id" />
+
+            <button type="submit" class="btn-main">حجز موعد</button>
+        </form>
+        <a href="{% url 'supervisor_home' %}" class="back-link">⬅ العودة إلى الصفحة الرئيسية</a>
+    </div>
+{% endblock %}

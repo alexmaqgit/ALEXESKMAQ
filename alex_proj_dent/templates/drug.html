@@ -1,0 +1,79 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>عيادة الأسنان | إدارة الأدوية</title>
+    <link rel="stylesheet" href="{% static 'css/drug.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+
+<!-- الحقل المخفي لقيمة العيادة من الجلسة -->
+<input type="hidden" id="sessionClinId" value="{{ clin_id }}">
+
+<div class="luxury-container">
+    <div class="hero-section">
+        <h1><i class="fas fa-tooth"></i> إدارة العلاج DENTAL_DRUG <i class="fas fa-capsules"></i></h1>
+    </div>
+
+    <div class="dashboard-grid">
+        <!-- قسم الإضافة / التعديل -->
+        <div class="add-card">
+            <div class="card-header">
+                <h2><i class="fas fa-plus-circle"></i> إضافة / تعديل علاج</h2>
+            </div>
+            <div class="form-body">
+                <div class="input-group">
+                    <label><i class="fas fa-pills"></i> اسم العلاج</label>
+                    <input type="text" id="treatmentName" placeholder="مثال: أموكسيسيلين 500mg">
+                </div>
+                <div class="input-group">
+                    <label><i class="fas fa-file-alt"></i> تعليمات الاستخدام</label>
+                    <textarea id="usageInstructions" placeholder="الجرعة، عدد المرات، تحذيرات..."></textarea>
+                </div>
+                <div class="input-group">
+                    <label><i class="fas fa-id-card"></i> معرف العيادة</label>
+                    <input type="text" id="clinId" placeholder="مثال: CL-101 / DENT-02" readonly>
+                </div>
+                <div class="btn-group">
+                    <button class="btn-primary" id="submitBtn"><i class="fas fa-save"></i> <span id="submitText">إضافة العلاج</span></button>
+                    <button class="btn-secondary" id="cancelEditBtn" style="display: none;"><i class="fas fa-times"></i> إلغاء التعديل</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- قسم البحث والجدول -->
+        <div class="search-table-card">
+            <div class="search-header">
+                <div class="search-wrapper">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="🔍 ابحث ذاتياً عن علاج ...">
+                </div>
+                <div class="result-badge" id="resultCount">✨ جميع العلاجات</div>
+            </div>
+            <div class="table-container">
+                <table class="drug-table" id="drugTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>اسم العلاج</th>
+                            <th>تعليمات الاستخدام</th>
+                            <th>معرف العيادة</th>
+                            <th>إجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        <tr class="empty-row"><td colspan="5">جاري التحميل...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'js/drug.js' %}" defer></script>
+</body>
+</html>

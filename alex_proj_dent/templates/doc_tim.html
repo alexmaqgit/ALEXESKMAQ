@@ -1,0 +1,61 @@
+{% load static %}
+<!doctype html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>جدول فترات الأطباء</title>
+    <link rel="stylesheet" href="{% static 'css/doc_time.css' %}?v=14" />
+</head>
+<body>
+    <form id="clinform" autocomplete="off">
+        {% csrf_token %}
+        <div class="mycard">
+            <h2>جدول فترات الأطباء</h2>
+
+            <!-- اختيار الطبيب -->
+            <div class="input-group">
+                <label for="doctorSelect">اختر الدكتور:</label>
+                <select id="doctorSelect">
+                    <option value="">-- اختر طبيب --</option>
+                    {% for doc in doctors %}
+                        <option value="{{ doc.DOCTOR_ID }}">{{ doc.DOCTOR_NAME }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- معلومات الطبيب -->
+            <div id="doctorInfo" class="info-card" style="display:none;"></div>
+
+            <!-- اختيار اليوم (يظهر بعد اختيار الطبيب) -->
+            <div id="daySelectorContainer" style="display:none; margin: 20px 0;">
+                <label for="daySelect">اختر اليوم:</label>
+                <select id="daySelect" class="day-select">
+                    <option value="SATURDAY">السبت</option>
+                    <option value="SUNDAY">الأحد</option>
+                    <option value="MONDAY">الاثنين</option>
+                    <option value="TUESDAY">الثلاثاء</option>
+                    <option value="WEDNESDAY">الأربعاء</option>
+                    <option value="THURSDAY">الخميس</option>
+                    <option value="FRIDAY">الجمعة</option>
+                </select>
+            </div>
+
+            <!-- حاوية الفترات (تظهر بشكل أفقي) -->
+            <div id="periodsContainer" style="display:none;">
+                <h3 id="selectedDayTitle" class="day-title"></h3>
+                <div id="periodsList" class="periods-horizontal"></div>
+            </div>
+
+            <button id="saveBtn" class="primary-btn" style="display:none;">
+                💾 حفظ التعديلات
+            </button>
+            <a href="{% url 'supervisor_home' %}" class="back-link">
+                ⬅ العودة إلى الصفحة الرئيسية
+            </a>
+        </div>
+    </form>
+
+    <script src="{% static 'js/doc_tim.js' %}?v=14"></script>
+</body>
+</html>

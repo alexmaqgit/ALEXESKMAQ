@@ -1,0 +1,1698 @@
+/* ================= قاعدة الشاشة ================= */
+body {
+    font-family: 'Cairo', sans-serif;
+    background: linear-gradient(135deg, #f0f4f8, #dfe7ff);
+    margin: 0;
+    padding: 20px;
+    color: #222;
+    direction: rtl;
+}
+
+.container {
+    display: flex;
+    gap: 25px;
+    max-width: 1300px;
+    margin: auto;
+    flex-wrap: wrap;
+}
+
+/* ================= قائمة الزيارات ================= */
+.visits-list {
+    width: 280px;
+    background: #fff;
+    border-radius: 22px;
+    padding: 18px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+    max-height: 85vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.search-wrapper {
+    position: relative;
+    margin-bottom: 14px;
+}
+
+#searchInput {
+    width: 100%;
+    padding: 12px 40px 12px 14px;
+    border-radius: 14px;
+    border: 1px solid #cdd9e5;
+    font-size: 14px;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+}
+
+#searchInput:focus {
+    outline: none;
+    border-color: #0d47a1;
+    box-shadow: 0 0 0 3px rgba(13, 71, 161, 0.1);
+}
+
+.dropdown {
+    position: absolute;
+    width: 100%;
+    background: #fff;
+    border-radius: 14px;
+    max-height: 220px;
+    overflow-y: auto;
+    display: none;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.18);
+    z-index: 100;
+}
+
+.dropdown div {
+    padding: 12px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+    transition: all 0.2s ease;
+}
+
+.dropdown div:hover {
+    background: #e0e7ff;
+    color: #0d47a1;
+}
+
+#visitsList {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex: 1;
+}
+
+/* ================= صف الزيارة ================= */
+.visit-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    width: 100%;
+}
+
+/* ================= زر الزيارة الرئيسي ================= */
+.visit-main-btn {
+    flex: 1;
+    min-width: 0;
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    border: 1px solid rgba(13, 71, 161, 0.15);
+    border-radius: 14px;
+    padding: 6px 8px;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 600;
+    font-size: 11px;
+    text-align: right;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    color: #1e293b;
+    position: relative;
+    overflow: hidden;
+    width: auto;
+    max-width: 180px;
+    white-space: normal;
+}
+
+.visit-main-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(13, 71, 161, 0.1), transparent);
+    transition: left 0.5s ease;
+}
+
+.visit-main-btn:hover::before {
+    left: 100%;
+}
+
+.visit-main-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(13, 71, 161, 0.12);
+    border-color: rgba(13, 71, 161, 0.25);
+}
+
+.visit-main-btn.active {
+    background: linear-gradient(135deg, #0d47a1, #1565c0);
+    color: white;
+    border-color: transparent;
+    box-shadow: 0 4px 12px rgba(13, 71, 161, 0.2);
+}
+
+.visit-main-btn.active::before {
+    display: none;
+}
+
+.visit-main-btn .visit-number {
+    font-size: 10px;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.visit-main-btn .visit-date {
+    font-size: 9px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.visit-main-btn.active .visit-date {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+/* ================= زيارة غير مؤكدة ================= */
+.visit-main-btn.unconfirmed {
+    background: linear-gradient(135deg, #fff8f0, #fff0e6);
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    color: #e65100;
+}
+
+.visit-main-btn.unconfirmed .visit-number {
+    color: #e65100;
+}
+
+.visit-main-btn.unconfirmed .visit-date {
+    color: #f59e0b;
+}
+
+.visit-main-btn.unconfirmed .visit-date::before {
+    content: '⚠️';
+    font-size: 9px;
+}
+
+.visit-main-btn.unconfirmed:hover {
+    background: linear-gradient(135deg, #ffe6cc, #ffd9b5);
+    box-shadow: 0 6px 16px rgba(245, 158, 11, 0.15);
+    border-color: rgba(245, 158, 11, 0.4);
+}
+
+/* ================= الأزرار الجانبية (موحدة الحجم) ================= */
+.action-icon-btn {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    max-width: 40px;
+    border-radius: 12px;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.action-icon-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s ease;
+}
+
+.action-icon-btn:hover::before {
+    left: 100%;
+}
+
+.action-icon-btn:hover {
+    transform: translateY(-2px) scale(1.05);
+}
+
+.action-icon-btn:active {
+    transform: translateY(0) scale(0.98);
+}
+
+/* ================= زر الملاحظة ================= */
+.note-btn {
+    background: linear-gradient(135deg, #fff8e7, #fff3e0);
+    color: #e65100;
+    border: 1px solid rgba(230, 81, 0, 0.2);
+}
+
+/* ================= زر العلاج ================= */
+.treatment-btn {
+    background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+    color: #2e7d32;
+    border: 1px solid rgba(46, 125, 50, 0.2);
+    width: 40px;
+    height: 40px;
+    padding: 0;
+}
+
+.treatment-btn .drug-icon,
+.treatment-btn .drug-text {
+    display: none;
+}
+
+/* ================= زر الدفع ================= */
+.payment-btn {
+    background: linear-gradient(135deg, #fff9e6, #fff3cf);
+    color: #f39c12;
+    border: 1px solid rgba(243, 156, 18, 0.2);
+}
+
+/* ================= زر إضافة زيارة جديدة ================= */
+#showAddProcedureBtn {
+    width: 100%;
+    padding: 14px 20px;
+    border-radius: 18px;
+    border: none;
+    background: linear-gradient(105deg, #0d47a1 0%, #1565c0 100%);
+    color: white;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+}
+
+#showAddProcedureBtn::before {
+    content: '+';
+    font-size: 20px;
+    font-weight: bold;
+}
+
+#showAddProcedureBtn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(13, 71, 161, 0.3);
+}
+
+/* ================= قسم التقرير ================= */
+.report-section {
+    flex-grow: 1;
+    min-width: 300px;
+}
+
+.visit-report {
+    background: #fff;
+    border-radius: 26px;
+    padding: 32px;
+    min-height: 450px;
+    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.12);
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+/* ================= الفورم المنبثق ================= */
+.form-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    background: rgba(0, 0, 0, 0);
+    z-index: 1000;
+}
+
+.form-overlay.show {
+    opacity: 1;
+    pointer-events: auto;
+    background: rgba(30, 41, 59, 0.7);
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
+}
+
+.add-form {
+    width: 100%;
+    max-width: 860px;
+    max-height: 85vh;
+    overflow-y: auto;
+    background: #ffffff;
+    border-radius: 40px;
+    transform: scale(0.95) translateY(20px);
+    transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    position: relative;
+}
+
+.form-overlay.show .add-form {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+    animation: modalSlideUp 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1) forwards;
+}
+
+@keyframes modalSlideUp {
+    0% {
+        opacity: 0;
+        transform: translateY(30px) scale(0.96);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.add-form h2 {
+    font-size: 22px;
+    font-weight: 700;
+    margin: 0;
+    padding: 24px 32px 16px 32px;
+    color: #1e293b;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: linear-gradient(135deg, #fef9e8, #fff8f0);
+    border-radius: 40px 40px 0 0;
+    border-bottom: 2px solid #fff0e0;
+}
+
+.add-form h2::before {
+    content: '🌟';
+    font-size: 24px;
+}
+
+/* صف مزدوج للإجراءات والفحوصات */
+.two-columns {
+    display: flex;
+    gap: 28px;
+    margin: 0 32px 28px 32px;
+}
+
+.two-columns .section-card {
+    flex: 1;
+    margin: 0;
+    min-width: 0;
+}
+
+/* مجموعات الحقول */
+.form-group {
+    margin-bottom: 20px;
+    padding: 0 32px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #475569;
+    font-size: 13px;
+}
+
+.form-input {
+    width: 100%;
+    padding: 14px 18px;
+    border-radius: 20px;
+    border: 2px solid #f1f5f9;
+    background: #fefefe;
+    font-family: 'Cairo', sans-serif;
+    font-size: 14px;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+    color: #1e293b;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #f59e0b;
+    background: #ffffff;
+    box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.1);
+}
+
+.form-row {
+    display: flex;
+    gap: 20px;
+    padding: 0 32px;
+    margin-bottom: 20px;
+}
+
+.form-row .form-group {
+    flex: 1;
+    padding: 0;
+    margin-bottom: 0;
+}
+
+.section-card {
+    border: 2px solid #f1f5f9;
+    padding: 16px;
+    border-radius: 24px;
+    background: #fefefe;
+    transition: all 0.2s ease;
+}
+
+.section-card:hover {
+    border-color: #ffe6cc;
+    background: #fffef8;
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.section-icon {
+    font-size: 18px;
+}
+
+.section-header h3 {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0;
+    color: #475569;
+}
+
+.checkbox-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 10px;
+    max-height: 260px;
+    overflow-y: auto;
+    padding: 4px;
+}
+
+.checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 12px;
+    border-radius: 14px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.checkbox-item:hover {
+    background: #fff8f0;
+    transform: translateX(4px);
+}
+
+.checkbox-item input[type='checkbox'] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    accent-color: #f59e0b;
+}
+
+.checkbox-item span {
+    font-size: 13px;
+    font-weight: 500;
+    color: #475569;
+}
+
+.form-buttons {
+    display: flex;
+    gap: 16px;
+    margin: 8px 32px 0 32px;
+    padding-top: 20px;
+    border-top: 1px solid #f1f5f9;
+}
+
+.save-form-btn {
+    flex: 1;
+    padding: 12px 24px;
+    border-radius: 40px;
+    border: none;
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: white;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.save-form-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px -6px rgba(245, 158, 11, 0.4);
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+}
+
+.edit-mode-btn {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+}
+
+.cancel-form-btn {
+    flex: 1;
+    padding: 12px 24px;
+    border-radius: 40px;
+    border: 1.5px solid #e2e8f0;
+    background: transparent;
+    color: #64748b;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.cancel-form-btn:hover {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+    color: #475569;
+}
+
+#procedureContainer,
+#labExamsContainer {
+    border: 2px solid #f1f5f9;
+    padding: 16px;
+    margin: 0 32px 20px 32px;
+    border-radius: 24px;
+    background: #fefefe;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+#procedureContainer h3,
+#labExamsContainer h3 {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0 0 12px 0;
+    color: #475569;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+#procedureContainer h3::before {
+    content: '🩺';
+    font-size: 16px;
+}
+
+#labExamsContainer h3::before {
+    content: '🔬';
+    font-size: 16px;
+}
+
+/* ================= المودال ================= */
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.modal-content {
+    background: #fff;
+    padding: 30px;
+    border-radius: 22px;
+    width: 90%;
+    max-width: 520px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+}
+
+.modal-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.save-btn {
+    flex: 1;
+    padding: 10px;
+    border-radius: 12px;
+    background: #43a047;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.save-btn:hover {
+    transform: translateY(-2px);
+}
+
+.cancel-btn {
+    flex: 1;
+    padding: 10px;
+    border-radius: 12px;
+    background: #e53935;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.cancel-btn:hover {
+    transform: translateY(-2px);
+}
+
+/* ================= مودالات فاخرة ================= */
+.fancy-modal {
+    max-width: 550px;
+    background: linear-gradient(135deg, #ffffff, #f8fafc);
+    border-radius: 28px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    padding: 28px;
+}
+
+.fancy-modal h3 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #1e293b;
+}
+
+.modal-checkbox-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+    max-height: 400px;
+    overflow-y: auto;
+    padding: 8px;
+    margin: 16px 0;
+}
+
+.modal-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.modal-checkbox:hover {
+    background: #f1f5f9;
+    border-color: #0d47a1;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(13, 71, 161, 0.1);
+}
+
+.modal-checkbox input[type='checkbox'] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: #0d47a1;
+}
+
+.modal-checkbox span {
+    font-size: 14px;
+    font-weight: 500;
+    color: #1e293b;
+}
+
+.drug-checkbox {
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.drug-checkbox .instructions {
+    font-size: 11px;
+    color: #64748b;
+    margin-top: 4px;
+    margin-right: 32px;
+}
+
+/* ================= أدوية المريض ================= */
+.patient-drugs-grid,
+.drug-results-grid,
+.treatments-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+    margin-top: 10px;
+    max-height: 200px;
+    overflow-y: auto;
+    padding: 10px;
+    background: #f8fafc;
+    border-radius: 12px;
+}
+
+.drug-item {
+    display: flex;
+    flex-direction: column;
+    padding: 8px;
+    background: white;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    transition: all 0.2s ease;
+}
+
+.drug-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.drug-item input[type='checkbox'] {
+    width: 18px;
+    height: 18px;
+    margin-bottom: 6px;
+}
+
+.drug-item label {
+    font-weight: 600;
+    font-size: 13px;
+    color: #1e293b;
+}
+
+.drug-item .instructions {
+    font-size: 11px;
+    color: #64748b;
+    margin-top: 4px;
+}
+
+/* ================= تقرير الزيارة ================= */
+.visit-report {
+    background: linear-gradient(135deg, #ffffff, #fefefe);
+    border-radius: 32px;
+    padding: 28px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+}
+
+.report-header {
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #eef2ff;
+}
+
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.patient-greeting {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: linear-gradient(135deg, #f8fafc, #ffffff);
+    padding: 8px 20px;
+    border-radius: 50px;
+    border: 1px solid #eef2ff;
+}
+
+.greeting-icon {
+    font-size: 20px;
+    background: linear-gradient(135deg, #e0f2fe, #bae6fd);
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: #0284c7;
+}
+
+.patient-name {
+    font-size: 18px;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.status-badge {
+    padding: 6px 16px;
+    border-radius: 40px;
+    font-size: 12px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.status-badge.confirmed {
+    background: linear-gradient(135deg, #e8f5e9, #d0e8cf);
+    color: #2e7d32;
+}
+
+.status-badge.unconfirmed {
+    background: linear-gradient(135deg, #fff3e0, #ffe6cc);
+    color: #e65100;
+}
+
+.header-info {
+    display: flex;
+    gap: 24px;
+    background: #f8fafc;
+    padding: 10px 20px;
+    border-radius: 50px;
+    display: inline-flex;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #475569;
+}
+
+.info-icon {
+    font-size: 14px;
+}
+
+.info-text {
+    font-weight: 500;
+}
+
+.report-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+}
+
+.report-card {
+    background: white;
+    border-radius: 24px;
+    padding: 24px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.report-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.15);
+}
+
+.note-card {
+    border-top: 3px solid #42a5f5;
+}
+.procedures-card {
+    border-top: 3px solid #66bb6a;
+}
+.exams-card {
+    border-top: 3px solid #ffa726;
+}
+.drugs-card {
+    border-top: 3px solid #ab47bc;
+}
+
+.note-card .card-icon {
+    background: linear-gradient(135deg, #e3f2fd, #bbdef5);
+    color: #1976d2;
+}
+.procedures-card .card-icon {
+    background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+    color: #388e3c;
+}
+.exams-card .card-icon {
+    background: linear-gradient(135deg, #fff3e0, #ffe0b2);
+    color: #f57c00;
+}
+.drugs-card .card-icon {
+    background: linear-gradient(135deg, #f3e5f5, #e1bee7);
+    color: #8e24aa;
+}
+
+.card-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+}
+
+.report-card:hover .card-icon {
+    transform: scale(1.05) rotate(5deg);
+}
+
+.card-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 16px;
+}
+
+.card-content {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #475569;
+    margin-bottom: 20px;
+}
+
+.card-content.empty {
+    color: #94a3b8;
+    font-style: italic;
+}
+
+.card-edit-btn {
+    background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+    border: none;
+    border-radius: 40px;
+    padding: 8px 20px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #1e293b;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.card-edit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.note-card .card-edit-btn:hover {
+    background: linear-gradient(135deg, #42a5f5, #1e88e5);
+    color: white;
+}
+.procedures-card .card-edit-btn:hover {
+    background: linear-gradient(135deg, #66bb6a, #43a047);
+    color: white;
+}
+.exams-card .card-edit-btn:hover {
+    background: linear-gradient(135deg, #ffa726, #fb8c00);
+    color: white;
+}
+.drugs-card .card-edit-btn:hover {
+    background: linear-gradient(135deg, #ab47bc, #9c27b0);
+    color: white;
+}
+
+.add-btn {
+    background: linear-gradient(135deg, #e8f0fe, #d9e8ff);
+    color: #0d47a1;
+}
+
+.add-btn:hover {
+    background: linear-gradient(135deg, #0d47a1, #1565c0);
+    color: white;
+}
+
+.empty-card {
+    background: linear-gradient(135deg, #fafcff, #f8fafc);
+    border: 1px dashed #cbd5e1;
+}
+
+/* ================= القوائم العمودية ================= */
+.card-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 16px 0;
+}
+
+.list-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-radius: 16px;
+    transition: all 0.2s ease;
+    animation: fadeInRow 0.3s ease forwards;
+}
+
+@keyframes fadeInRow {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.list-row:hover {
+    transform: translateX(4px);
+}
+
+.row-icon {
+    font-size: 18px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+}
+
+.row-name {
+    flex: 1;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+.procedures-row {
+    background: linear-gradient(135deg, #e8f5e9, #d4e6d4);
+    border-right: 3px solid #2e7d32;
+}
+
+.procedures-row .row-icon {
+    background: linear-gradient(135deg, #66bb6a, #43a047);
+    color: white;
+}
+.procedures-row .row-name {
+    color: #1b5e20;
+}
+.procedures-row:hover {
+    background: linear-gradient(135deg, #c8e6c9, #b8dcb9);
+}
+
+.exams-row {
+    background: linear-gradient(135deg, #fff3e0, #ffefdb);
+    border-right: 3px solid #e65100;
+}
+
+.exams-row .row-icon {
+    background: linear-gradient(135deg, #ffa726, #fb8c00);
+    color: white;
+}
+.exams-row .row-name {
+    color: #bf360c;
+}
+.exams-row:hover {
+    background: linear-gradient(135deg, #ffe0b2, #ffd9a5);
+}
+
+.drugs-row {
+    background: linear-gradient(135deg, #f3e5f5, #ecdff0);
+    border-right: 3px solid #7b1fa2;
+}
+
+.drugs-row .row-icon {
+    background: linear-gradient(135deg, #ab47bc, #9c27b0);
+    color: white;
+}
+.drugs-row .row-name {
+    color: #4a0072;
+}
+.drugs-row:hover {
+    background: linear-gradient(135deg, #e1bee7, #d9b0e0);
+}
+
+.item-count {
+    font-size: 12px;
+    font-weight: 500;
+    background: rgba(0, 0, 0, 0.08);
+    padding: 2px 8px;
+    border-radius: 20px;
+    margin-right: 8px;
+}
+
+.note-content {
+    background: linear-gradient(135deg, #e3f2fd, #d4e7fc);
+    border-radius: 16px;
+    padding: 14px 18px;
+    line-height: 1.6;
+    color: #0d47a1;
+    border-right: 3px solid #1976d2;
+    margin: 16px 0;
+}
+
+/* ================= Toast Notifications ================= */
+.toast-notification {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: white;
+    border-radius: 16px;
+    padding: 12px 20px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+    z-index: 2000;
+    animation: slideIn 0.3s ease forwards;
+    border-right: 4px solid;
+}
+
+.toast-notification.success {
+    border-right-color: #43a047;
+}
+.toast-notification.error {
+    border-right-color: #e53935;
+}
+.toast-notification.info {
+    border-right-color: #0288d1;
+}
+
+.toast-icon {
+    font-size: 20px;
+}
+.toast-message {
+    font-size: 14px;
+    font-weight: 500;
+    color: #1e293b;
+}
+.toast-close {
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    color: #94a3b8;
+    padding: 0 4px;
+}
+.toast-close:hover {
+    color: #475569;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideOut {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(-100px);
+    }
+}
+
+/* ================= شريط التمرير ================= */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #0d47a1;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #1565c0;
+}
+
+/* ================= تحسينات للشاشات الصغيرة ================= */
+@media (max-width: 768px) {
+    body {
+        padding: 12px;
+    }
+    .container {
+        gap: 15px;
+    }
+    .visits-list {
+        width: 100%;
+        max-height: 40vh;
+    }
+    .report-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .header-top {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .header-actions {
+        width: 100%;
+        justify-content: flex-start;
+    }
+    .header-info {
+        width: 100%;
+        justify-content: center;
+    }
+    .report-grid {
+        grid-template-columns: 1fr;
+    }
+    .visit-report {
+        padding: 20px;
+    }
+    .card-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+    }
+    .two-columns {
+        flex-direction: column;
+        gap: 16px;
+        margin: 0 24px 20px 24px;
+    }
+    .checkbox-grid {
+        grid-template-columns: 1fr;
+    }
+    .add-form {
+        max-width: 92%;
+        max-height: 85vh;
+        border-radius: 32px;
+    }
+    .add-form h2 {
+        padding: 20px 24px 14px 24px;
+        font-size: 20px;
+    }
+    .form-row {
+        flex-direction: column;
+        gap: 0;
+        padding: 0 24px;
+    }
+    .form-group {
+        padding: 0 24px;
+    }
+    #procedureContainer,
+    #labExamsContainer {
+        margin: 0 24px 16px 24px;
+        padding: 12px;
+    }
+    .form-buttons {
+        margin: 8px 24px 0 24px;
+        flex-direction: column;
+        gap: 12px;
+    }
+}
+
+/* ================= كرت تفاصيل الدفع المنبثق ================= */
+.payment-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    animation: fadeIn 0.3s ease;
+}
+
+.payment-card-content {
+    width: 450px;
+    max-width: 90%;
+    background: linear-gradient(135deg, #ffffff, #fefefe);
+    border-radius: 32px;
+    overflow: hidden;
+    box-shadow: 0 30px 50px rgba(0, 0, 0, 0.3);
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.payment-card-header {
+    background: linear-gradient(135deg, #1e293b, #0f172a);
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: relative;
+}
+
+.payment-card-header .header-icon {
+    font-size: 28px;
+}
+
+.payment-card-header h3 {
+    flex: 1;
+    font-size: 20px;
+    font-weight: 700;
+    color: white;
+    margin: 0;
+}
+
+.close-payment-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 16px;
+    font-size: 16px;
+    cursor: pointer;
+    color: white;
+    transition: all 0.2s ease;
+}
+
+.close-payment-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: rotate(90deg);
+}
+
+.payment-card-body {
+    padding: 24px;
+}
+
+.payment-total {
+    background: linear-gradient(135deg, #1e293b, #0f172a);
+    border-radius: 20px;
+    padding: 16px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.total-label {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 14px;
+}
+
+.total-amount {
+    font-size: 28px;
+    font-weight: 800;
+    color: #22c55e;
+}
+
+.currency {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.5);
+    margin-right: 4px;
+}
+
+.payment-items-list {
+    max-height: 300px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.payment-item-row {
+    background: #f8fafc;
+    border-radius: 16px;
+    padding: 12px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.2s ease;
+    border: 1px solid #e2e8f0;
+}
+
+.payment-item-row:hover {
+    background: #f1f5f9;
+    transform: translateX(4px);
+}
+
+.payment-item-name {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 500;
+    color: #334155;
+}
+
+.payment-item-icon {
+    font-size: 18px;
+}
+
+.payment-item-price {
+    font-weight: 700;
+    color: #22c55e;
+}
+
+.payment-card-footer {
+    padding: 16px 24px 24px;
+    border-top: 1px solid #e2e8f0;
+}
+
+.close-payment-footer-btn {
+    width: 100%;
+    padding: 12px;
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    border-radius: 40px;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    color: #475569;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.close-payment-footer-btn:hover {
+    background: #e2e8f0;
+}
+
+.empty-payment {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2.5rem 1.5rem;
+    background: #f8fafc;
+    border-radius: 24px;
+    margin: 1rem auto;
+    border: 1px dashed #cbd5e1;
+    gap: 0.75rem;
+    width: 90%;
+    max-width: 500px;
+}
+
+.empty-payment-icon {
+    font-size: 3rem;
+    opacity: 0.6;
+    margin: 0;
+}
+
+.empty-payment p {
+    font-size: 0.9rem;
+    color: #8800ff;
+    font-weight: 500;
+    margin: 0;
+}
+
+/* ================= تحذير الزيارة الأولى غير المؤكدة ================= */
+.first-visit-warning {
+    text-align: center;
+    padding: 60px 40px;
+    background: linear-gradient(135deg, #fff8f0, #fff0e6);
+    border-radius: 32px;
+    border: 1px solid #ffe0b2;
+    margin: 20px;
+}
+
+.warning-icon {
+    font-size: 64px;
+    margin-bottom: 20px;
+}
+
+.first-visit-warning h3 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #e65100;
+    margin-bottom: 12px;
+}
+
+.first-visit-warning p {
+    font-size: 14px;
+    color: #64748b;
+    margin-bottom: 0;
+}
+
+/* ================= رسائل التنبيه ================= */
+.alert {
+    padding: 12px 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 14px;
+    animation: slideIn 0.3s ease-out;
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+    transition: opacity 0.3s ease;
+}
+
+.alert-success {
+    background: rgba(0, 255, 204, 0.2);
+    color: #00ffcc;
+    border-right: 4px solid #00ffcc;
+}
+
+.alert-warning {
+    background: rgba(255, 193, 7, 0.2);
+    color: #ffc107;
+    border-right: 4px solid #ffc107;
+}
+
+.alert-error {
+    background: rgba(255, 77, 77, 0.2);
+    color: #ff4d4d;
+    border-right: 4px solid #ff4d4d;
+}
+
+.alert-info {
+    background: rgba(102, 126, 234, 0.2);
+    color: #667eea;
+    border-right: 4px solid #667eea;
+}
+
+button:disabled {
+    background: #666;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* ===== الشريط العلوي الموحد مع دعم Safari ===== */
+.top-bar {
+    background: rgba(255, 255, 255, 0.85);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+    margin-bottom: 1.5rem;
+}
+
+.logo-area {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #1f3a6b;
+}
+
+.logo-area i {
+    font-size: 2rem;
+    color: #2c7da0;
+}
+
+.logo-area .highlight {
+    color: #2c7da0;
+}
+
+.user-area {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.welcome-text {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #f0f4fa;
+    padding: 0.5rem 1.2rem;
+    border-radius: 60px;
+    font-weight: 500;
+    color: #1f3a6b;
+}
+
+.welcome-text i {
+    font-size: 1.2rem;
+    color: #2c7da0;
+}
+
+.logout-icon-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #eef2ff;
+    padding: 0.5rem 1.2rem;
+    border-radius: 60px;
+    text-decoration: none;
+    color: #1e293b;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+}
+
+.logout-icon-btn:hover {
+    background: #fee2e2;
+    color: #b91c1c;
+    border-color: #fecaca;
+}
+/* تنسيق رسائل التوست */
+.toast-notification.info {
+    background: linear-gradient(139deg, #ae77ff, #ecc2ff);
+    border-right-color: #8c00ff;
+    color: #0c4a6e;
+}
+.toast-notification.info .toast-icon {
+    font-size: 2.5rem;
+}
+.toast-notification {
+    position: fixed;
+    bottom: 720px;      /* المسافة من الأسفل */
+    left: 1300px;        /* المسافة من اليسار — غيّر إلى right: 20px; لوضعه جهة اليمين */
+    min-width: 260px;
+    max-width: 350px;
+    padding: 14px 20px;   /* التحكم بالحجم */
+    border-radius: 16px;
+    font-size: 0.95rem;   /* حجم الخط */
+    z-index: 9999;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    direction: rtl;
+}
+
+.toast-icon {
+    font-size: 2.3rem;    /* حجم الأيقونة */
+}
+.toast-message {
+    flex: 1;
+    font-size: 1rem;
+    font-weight: bold;   /* لجعل الخط عريض */
+}

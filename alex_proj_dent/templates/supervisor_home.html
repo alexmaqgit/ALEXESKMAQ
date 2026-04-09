@@ -1,0 +1,166 @@
+<!-- supervisor_home.html - نسخة عصرية وأنيقة -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم - نظام العيادات</title>
+    <!-- Google Fonts: Tajawal حديث وواضح -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/supervisor_home.css' %}">
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- الشريط العلوي -->
+        <header class="top-bar">
+            <div class="logo-area">
+                <i class="fas fa-tooth"></i> <!-- أيقونة عامة -->
+                <span>عيادات<span class="highlight"> أونلاين</span></span>
+            </div>
+            <div class="user-area">
+                <div class="welcome-text">
+                    <i class="fas fa-user-astronaut"></i>
+                    <span>مرحباً، {{ request.session.user }}</span>
+                </div>
+                <a href="{% url 'logout' %}" class="logout-icon-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>خروج</span>
+                </a>
+            </div>
+        </header>
+
+        <!-- المحتوى الرئيسي -->
+        <main class="dashboard-main">
+            <div class="dashboard-header">
+                <h1>
+                    <i class="fas fa-chalkboard-user"></i> 
+                    لوحة التحكم
+                </h1>
+                <p>إدارة متكاملة للعيادات والأطباء والخدمات</p>
+            </div>
+
+            <!-- بطاقات الوظائف -->
+            <div class="cards-grid">
+                {% if perms.add_clinic %}
+                <div class="card" data-color="blue">
+                    <div class="card-icon"><i class="fas fa-hospital-user"></i></div>
+                    <div class="card-content">
+                        <h3>إضافة عيادة</h3>
+                        <p>تسجيل عيادة جديدة وتفاصيلها</p>
+                        <a href="{% url 'newaddclin' %}" class="card-link">إضافة عيادة <i class="fas fa-arrow-left"></i></a>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if perms.add_doctor %}
+                <div class="card" data-color="green">
+                    <div class="card-icon"><i class="fas fa-user-md"></i></div>
+                    <div class="card-content">
+                        <h3>إضافة دكتور</h3>
+                        <p>تسجيل أطباء جدد وتخصصاتهم</p>
+                        <a href="{% url 'doctor_page' %}" class="card-link">إضافة دكتور <i class="fas fa-arrow-left"></i></a>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if perms.services %}
+                <div class="card" data-color="purple">
+                    <div class="card-icon"><i class="fas fa-concierge-bell"></i></div>
+                    <div class="card-content">
+                        <h3>إدارة الخدمات</h3>
+                        <p>تحديد الخدمات والأسعار</p>
+                        <a href="{% url 'services_page' %}" class="card-link">إدارة الخدمات <i class="fas fa-arrow-left"></i></a>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if perms.doc_jop %}
+                <div class="card" data-color="orange">
+                    <div class="card-icon"><i class="fas fa-laptop-medical"></i></div>
+                    <div class="card-content">
+                        <h3>شاشة الدكتور</h3>
+                        <p>واجهة الطبيب لمتابعة الحالات</p>
+                        <a href="{% url 'doc_jop' %}" class="card-link">شاشة الدكتور <i class="fas fa-arrow-left"></i></a>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if perms.booking %}
+                <div class="card" data-color="teal">
+                    <div class="card-icon"><i class="fas fa-calendar-check"></i></div>
+                    <div class="card-content">
+                        <h3>الحجز</h3>
+                        <p>إدارة مواعيد المرضى</p>
+                        <a href="{% url 'booking' %}" class="card-link">حجز موعد <i class="fas fa-arrow-left"></i></a>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if perms.add_patient %}
+                <div class="card" data-color="pink">
+                    <div class="card-icon"><i class="fas fa-notes-medical"></i></div>
+                    <div class="card-content">
+                        <h3>إضافة حالة</h3>
+                        <p>تسجيل مرضى جدد</p>
+                        <a href="{% url 'patient_page' %}" class="card-link">إضافة حالة <i class="fas fa-arrow-left"></i></a>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if perms.visit_periods %}
+                <div class="card" data-color="indigo">
+                    <div class="card-icon"><i class="fas fa-clock"></i></div>
+                    <div class="card-content">
+                        <h3>فترات الزيارة</h3>
+                        <p>تحديد أوقات الزيارة</p>
+                        <a href="{% url 'visit_periods' %}" class="card-link">فترات الزيارة <i class="fas fa-arrow-left"></i></a>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if perms.payments %}
+                <div class="card" data-color="red">
+                    <div class="card-icon"><i class="fas fa-credit-card"></i></div>
+                    <div class="card-content">
+                        <h3>الدفع</h3>
+                        <p>إدارة الفواتير</p>
+                        <a href="{% url 'invoice' %}" class="card-link">الدفع <i class="fas fa-arrow-left"></i></a>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if perms.patient_drugs %}
+                <div class="card" data-color="yellow">
+                    <div class="card-icon"><i class="fas fa-pills"></i></div>
+                    <div class="card-content">
+                        <h3>أدوية المريض</h3>
+                        <p>وصف الأدوية وتتبعها</p>
+                        <a href="{% url 'drug_page' %}" class="card-link">الأدوية <i class="fas fa-arrow-left"></i></a>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if perms.doctor_schedule %}
+                <div class="card" data-color="gray">
+                    <div class="card-icon"><i class="fas fa-table-list"></i></div>
+                    <div class="card-content">
+                        <h3>جدول الأطباء</h3>
+                        <p>تنظيم جداول العمل</p>
+                        <a href="{% url 'doctors_screen_time' %}" class="card-link">الجدول <i class="fas fa-arrow-left"></i></a>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </main>
+
+        <!-- تذييل بسيط -->
+        <footer class="footer">
+            <p>© 2025 نظام العيادات الذكي - جميع الحقوق محفوظة</p>
+        </footer>
+    </div>
+</body>
+</html>

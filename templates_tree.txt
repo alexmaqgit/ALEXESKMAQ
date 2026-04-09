@@ -1,0 +1,6 @@
+Folder PATH listing for volume وحدة تخزين جديدة
+Volume serial number is 0000007E 2A30:08CA
+E:\PROJECT2026\ALEX_PROJ_DENT\TEMPLATES
+Invalid path - \PROJECT2026\ALEX_PROJ_DENT\TEMPLATES
+No subfolders exist 
+

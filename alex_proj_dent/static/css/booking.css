@@ -1,0 +1,260 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f4f8;
+    direction: rtl;
+    margin: 0;
+    padding: 0;
+}
+
+.booking-card {
+    max-width: 600px;
+    margin: 50px auto;
+    background-color: #fff;
+    padding: 30px 35px;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.header img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    margin: 0 auto;
+}
+
+.header h2 {
+    margin-top: 15px;
+    font-size: 26px;
+    color: #2f80ed;
+}
+
+form label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+    font-size: 14px;
+    text-align: right; /* محاذاة العناوين لليمين */
+}
+
+form input {
+    width: 100%;
+    padding: 12px 15px;
+    margin-top: 5px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+/* أيام الحجز والأوقات */
+.days,
+.slots {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+    justify-content: center;
+}
+
+.day,
+.slot {
+    flex: 1 1 80px;
+    max-width: 100px;
+    padding: 10px;
+    text-align: center;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    border: 1px solid #007bff;
+    transition: all 0.2s;
+}
+
+.day.available {
+    background-color: #e7f1ff;
+    color: #007bff;
+}
+.day.selected {
+    background-color: #007bff;
+    color: #fff;
+}
+.day.disabled {
+    background-color: #f0f0f0;
+    color: #aaa;
+    cursor: not-allowed;
+}
+
+.slot.available {
+    background-color: #fff4c2; /* أصفر فاتح */
+    color: #b36b00; /* نص بني داكن */
+    border: 1px solid #f5d76e; /* حدود متناسقة */
+}
+
+.slot.selected {
+    background-color: #27ae60; /* أخضر داكن */
+    color: #fff;
+    font-weight: bold;
+    transform: scale(1.05);
+}
+
+/* Custom Select */
+.custom-select {
+    position: relative;
+    width: 100%;
+    margin-top: 5px;
+}
+
+.custom-select .placeholder {
+    padding: 12px 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    color: #999;
+    animation: flashText 1s infinite; /* وميض مستمر */
+}
+
+.custom-select .options {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: none;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    max-height: 150px;
+    overflow-y: auto;
+    background-color: #fff;
+    position: absolute;
+    width: 100%;
+    z-index: 100;
+}
+
+.custom-select .options li {
+    padding: 10px 15px;
+    cursor: pointer;
+}
+
+.custom-select .options li:hover {
+    background-color: #2f80ed;
+    color: #fff;
+}
+
+.custom-select.selected .placeholder {
+    animation: none; /* إيقاف الوميض بعد الاختيار */
+    color: #333;
+}
+
+/* زر الحجز */
+form button.btn-main {
+    width: 100%;
+    margin-top: 20px;
+    padding: 12px;
+    font-size: 16px;
+    background-color: #2f80ed;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+form button.btn-main:hover {
+    background-color: #1366d6;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .header img {
+        width: 70px;
+        height: 70px;
+    }
+    .header h2 {
+        font-size: 20px;
+    }
+}
+
+/* وميض النص الافتراضي */
+@keyframes flashText {
+    0% {
+        color: #999;
+    }
+    50% {
+        color: #ff0000;
+    }
+    100% {
+        color: #999;
+    }
+}
+/* الحقول الافتراضية مخفية */
+.days,
+.slots {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+/* عند تفعيلها تظهر */
+.show {
+    display: flex !important;
+    opacity: 1;
+}
+
+/* تصميم الأيام */
+.day {
+    flex: 1 1 80px;
+    max-width: 100px;
+    padding: 10px;
+    text-align: center;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    border: 1px solid #007bff;
+    transition: all 0.2s;
+    background-color: #e7f1ff;
+    color: #007bff;
+}
+
+.day.selected {
+    background-color: #007bff;
+    color: #fff;
+    transform: scale(1.05);
+}
+
+.day.disabled {
+    background-color: #f0f0f0;
+    color: #aaa;
+    cursor: not-allowed;
+}
+
+/* تصميم الأوقات */
+.slot {
+    flex: 1 1 80px;
+    max-width: 100px;
+    padding: 10px;
+    text-align: center;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    border: 1px solid #f5d76e;
+    background-color: #fff4c2;
+    color: #b36b00;
+    transition: all 0.2s;
+}
+
+.slot.selected {
+    background-color: #27ae60;
+    color: #fff;
+    transform: scale(1.05);
+}
+
+/* تدرجات بسيطة عند المرور */
+.day:hover,
+.slot:hover {
+    transform: scale(1.05);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}

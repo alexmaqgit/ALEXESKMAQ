@@ -1,0 +1,158 @@
+{% load static %}
+<!doctype html>
+<html lang="ar">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>متابعة زيارات المرضى</title>
+        <link rel="stylesheet" href="{% static 'css/docscreen.css' %}?v=2" />
+        <script src="{% static 'js/docscreen.js' %}?v=2"></script>
+    </head>
+    <body>
+        <div class="container">
+            <h1>متابعة زيارات المرضى</h1>
+
+            <!-- شريط علوي -->
+            <div class="top-bar">
+                <input type="hidden" id="doctorId" />
+                <div class="stats" style="display:none;">
+                    <div class="stat-card">
+                        <span class="stat-number" id="totalVisits">0</span>
+                        <span class="stat-label">إجمالي الزيارات</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number" id="bookedVisits">0</span>
+                        <span class="stat-label">محجوز</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number" id="cancelVisits">0</span>
+                        <span class="stat-label">ملغي</span>
+                    </div>
+                </div>
+                <button id="themeToggle">🌙</button>
+            </div>
+
+            <!-- بحث المريض -->
+            <div class="patient-search">
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="أدخل رقم المريض أو الاسم"
+                    autocomplete="off"
+                />
+                <button id="searchBtn">بحث</button>
+                <div id="searchDropdown" class="dropdown"></div>
+            </div>
+
+            <!-- معلومات المريض -->
+            <div id="patientInfo" class="patient-info" style="display:none;"></div>
+
+            <!-- جدول الزيارات -->
+            <table id="treatmentTable" style="display:none;"></table>
+
+            <!-- زر إضافة زيارة جديدة -->
+            <button id="showAddProcedureBtn" style="display:none;">إضافة زيارة جديدة</button>
+
+            <!-- فورم إضافة/تعديل زيارة -->
+            <form id="addProcedureForm" class="add-form">
+                <h2>إضافة زيارة جديدة</h2>
+                <input type="hidden" id="visitNumber" />
+
+                <!-- المعلومات الأساسية -->
+                <fieldset>
+                    <legend>المعلومات الأساسية</legend>
+                    <div class="grid-2">
+                        <div>
+                            <label>التاريخ:</label>
+                            <input type="date" id="newDate" />
+                        </div>
+                        <div>
+                            <label>الفترة:</label>
+                            <select id="newTimeSlot">
+                                <option value="">اختر الفترة</option>
+                            </select>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <!-- الإجراءات والفحوصات -->
+                <fieldset class="combined-section">
+                    <legend>الإجراءات والفحوصات</legend>
+                    <div class="section-block">
+                        <label>الإجراءات:</label>
+                        <div id="procedureContainer" class="checkbox-container"></div>
+                    </div>
+                    <div class="section-block">
+                        <label>الفحوصات:</label>
+                        <div id="labExamsContainer" class="checkbox-container"></div>
+                    </div>
+                </fieldset>
+
+                <!-- الملاحظات -->
+                <fieldset>
+                    <legend>ملاحظات</legend>
+                    <textarea
+                        id="newNote"
+                        rows="4"
+                        style="width:100%; padding:8px; border-radius:6px; border:1px solid #ccc;"
+                    ></textarea>
+                </fieldset>
+
+                <!-- أزرار الحفظ -->
+                <div class="form-actions" style="display:flex; gap:10px; margin-top:15px;">
+                    <button type="submit" class="save-btn" style="flex:1;">حفظ الزيارة</button>
+                    <button
+                        id="saveEditBtn"
+                        type="button"
+                        class="save-btn small-btn"
+                        style="flex:1; background-color:#28a745;"
+                    >
+                        حفظ التحديث
+                    </button>
+                </div>
+
+                <!-- أدوية المريض -->
+                <fieldset class="combined-section">
+                    <legend>أدوية المريض</legend>
+                    <div class="drugs-section">
+                        <div class="drugs-header">
+                            <label>أدوية المريض الحالية:</label>
+                            <button
+                                id="fetchPatientDrugsBtn"
+                                type="button"
+                                class="save-btn small-btn"
+                                style="visibility:hidden;"
+                            >
+                                جلب أدوية المريض
+                            </button>
+                        </div>
+
+                        <!-- بيانات المريض لإحضار الأدوية -->
+                        <div class="inputs">
+                            <input type="hidden" id="patientIdInput" />
+                            <input type="hidden" id="doctorIdInput" />
+                            <input type="hidden" id="visitNumberInput" />
+                        </div>
+
+                        <!-- عرض أدوية المريض -->
+                        <div class="patient-results" id="patientDrugsResults"></div>
+
+                        <!-- البحث وإضافة أدوية جديدة -->
+                        <div class="search-section">
+                            <input
+                                type="text"
+                                id="drugSearch"
+                                placeholder="اكتب اسم الدواء لإضافته"
+                            />
+                            <div class="results" id="drugResults"></div>
+                            <button id="saveBtn" type="button" class="save-btn small-btn">
+                                حفظ/تحديث أدوية المريض
+                            </button>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+            <a href="{% url 'supervisor_home' %}" class="back-link">⬅ العودة إلى الصفحة الرئيسية</a>
+        </div>
+    </body>
+</html>

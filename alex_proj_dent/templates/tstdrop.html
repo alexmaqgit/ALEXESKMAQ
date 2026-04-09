@@ -1,0 +1,58 @@
+{% load static %}
+<!doctype html>
+<html lang="ar" dir="rtl">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>شاشة الطبيب المتطورة</title>
+        <link rel="stylesheet" href="{% static 'css/testdrop.css' %}" />
+        <script src="{% static 'js/testdrop.js' %}" defer></script>
+    </head>
+    <body>
+        <div class="container">
+            <!-- قائمة الزيارات -->
+            <div class="visits-list">
+                <div class="container">
+                    <input type="hidden" id="doctorIdInput" />
+                    <!-- باقي العناصر -->
+                </div>
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="أدخل رقم المريض أو الاسم"
+                    autocomplete="off"
+                />
+                <div id="searchDropdown" class="dropdown"></div>
+                <div id="visitsList"></div>
+
+                <button id="addVisitBtn" class="main-btn">إضافة زيارة جديدة</button>
+            </div>
+
+            <!-- تفاصيل الزيارة -->
+            <div class="report-section">
+                <div id="visitReport" class="visit-report">اختر زيارة لعرض التفاصيل</div>
+
+                <button id="editMainBtn" class="main-btn">تعديل / إضافة بيانات الزيارة</button>
+
+                <div id="visitOptions" class="visit-options">
+                    <button onclick="openModal('note','المعاينة')">المعاينة</button>
+                    <button onclick="openModal('treatment','الإجراءات')">الإجراءات</button>
+                    <button onclick="openModal('exams','الفحوصات')">الفحوصات</button>
+                    <button onclick="openModal('medcen','العلاج')">العلاج</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- مودال التعديل -->
+        <div id="editModal" class="modal">
+            <div class="modal-content">
+                <h3 id="modalTitle"></h3>
+                <textarea id="modalInput"></textarea>
+                <div class="modal-actions">
+                    <button class="save-btn" onclick="saveData()">حفظ</button>
+                    <button class="cancel-btn" onclick="closeModal()">إلغاء</button>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

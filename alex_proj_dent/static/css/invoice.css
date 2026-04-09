@@ -1,0 +1,558 @@
+/* ========================================
+   شاشة الفاتورة - تصميم فاخر
+   ======================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Cairo', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 40px 20px;
+    position: relative;
+    overflow-x: auto;
+}
+
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    pointer-events: none;
+}
+
+.invoice-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.invoice-card {
+    background: rgba(255, 255, 255, 0.98);
+    border-radius: 48px;
+    overflow: hidden;
+    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.2);
+}
+
+/* ========= الهيدر الفاخر ========= */
+.invoice-header {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.header-decoration {
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(255,215,0,0.1) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: float 8s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(5deg); }
+}
+
+.header-content {
+    padding: 40px 48px;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.logo-section {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.logo-icon {
+    width: 56px;
+    height: 56px;
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    border-radius: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    box-shadow: 0 8px 20px rgba(251, 191, 36, 0.3);
+}
+
+.logo-section h1 {
+    font-size: 28px;
+    font-weight: 800;
+    background: linear-gradient(135deg, #fff, #fbbf24);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.clinic-info {
+    text-align: left;
+}
+
+.clinic-name {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.invoice-date {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 6px 16px;
+    border-radius: 40px;
+    font-size: 13px;
+    color: #fbbf24;
+}
+
+/* ========= اختيار العيادة ========= */
+.clinic-selector {
+    padding: 24px 48px;
+    background: #f8fafc;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.selector-icon {
+    font-size: 28px;
+}
+
+.clinic-select {
+    flex: 1;
+    padding: 14px 20px;
+    border: 2px solid #e2e8f0;
+    border-radius: 24px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    background: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.clinic-select:focus {
+    outline: none;
+    border-color: #fbbf24;
+    box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.1);
+}
+
+/* ========= البحث ========= */
+.search-section {
+    padding: 32px 48px;
+    background: white;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #f1f5f9;
+    border-radius: 60px;
+    padding: 6px;
+}
+
+.search-icon {
+    font-size: 20px;
+    padding: 0 16px;
+    color: #64748b;
+}
+
+.search-input {
+    flex: 1;
+    padding: 14px 0;
+    border: none;
+    background: transparent;
+    font-family: 'Cairo', sans-serif;
+    font-size: 15px;
+    outline: none;
+}
+
+.search-input::placeholder {
+    color: #94a3b8;
+}
+
+.search-btn {
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    border: none;
+    padding: 12px 28px;
+    border-radius: 40px;
+    color: white;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s ease;
+}
+
+.search-btn:hover {
+    transform: translateY(-2px);
+}
+
+.btn-glow {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: left 0.5s ease;
+}
+
+.search-btn:hover .btn-glow {
+    left: 100%;
+}
+
+/* ========= معلومات المريض ========= */
+.patient-card {
+    background: linear-gradient(135deg, #fef9e8, #fff4e0);
+    border-radius: 28px;
+    padding: 24px 32px;
+    margin: 32px 48px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    border: 1px solid rgba(251, 191, 36, 0.3);
+}
+
+.patient-avatar {
+    width: 64px;
+    height: 64px;
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    border-radius: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+}
+
+.patient-details {
+    flex: 1;
+}
+
+.patient-name, .patient-id {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 8px;
+    font-size: 16px;
+}
+
+.patient-name .label, .patient-id .label {
+    color: #64748b;
+    font-weight: 500;
+}
+
+.patient-name .value, .patient-id .value {
+    color: #1e293b;
+    font-weight: 700;
+    font-size: 18px;
+}
+
+/* ========= عناوين الأقسام ========= */
+.section-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 32px 48px 20px;
+}
+
+.title-icon {
+    font-size: 28px;
+}
+
+.section-title h3 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.title-line {
+    flex: 1;
+    height: 2px;
+    background: linear-gradient(90deg, #e2e8f0, transparent);
+}
+
+/* ========= الجداول ========= */
+.table-container {
+    margin: 0 48px;
+    overflow-x: auto;
+    border-radius: 20px;
+    background: #f8fafc;
+}
+
+.invoice-table, .visits-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.invoice-table th, .visits-table th {
+    padding: 16px 20px;
+    text-align: center;
+    background: #f1f5f9;
+    font-weight: 700;
+    color: #475569;
+    font-size: 14px;
+}
+
+.invoice-table td, .visits-table td {
+    padding: 14px 20px;
+    text-align: center;
+    border-bottom: 1px solid #e2e8f0;
+    font-size: 14px;
+    color: #334155;
+}
+
+.invoice-table tr:hover td, .visits-table tr:hover td {
+    background: #fef9e8;
+}
+
+.checkbox-col {
+    width: 60px;
+}
+
+.invoice-table input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: #f59e0b;
+}
+
+/* ========= الإجمالي ========= */
+.total-section {
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    margin: 24px 48px;
+    padding: 20px 32px;
+    border-radius: 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.total-label {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.total-amount span:first-child {
+    font-size: 32px;
+    font-weight: 800;
+    color: #fbbf24;
+}
+
+.currency {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-right: 8px;
+}
+
+/* ========= زر الدفع ========= */
+.pay-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: calc(100% - 96px);
+    margin: 24px 48px;
+    padding: 18px;
+    background: linear-gradient(135deg, #10b981, #059669);
+    border: none;
+    border-radius: 48px;
+    color: white;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.pay-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(16, 185, 129, 0.3);
+}
+
+.pay-btn .btn-icon {
+    font-size: 22px;
+}
+
+/* ========= زر تأكيد الحجز ========= */
+.confirm-visit-btn {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    border: none;
+    padding: 8px 20px;
+    border-radius: 40px;
+    color: white;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 600;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.confirm-visit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+/* ========= اختيار الدكتور ========= */
+.doctor-selector {
+    padding: 20px 48px;
+    background: #f8fafc;
+    border-top: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.doctor-selector label {
+    font-weight: 600;
+    color: #475569;
+}
+
+.doctor-selector select {
+    padding: 10px 20px;
+    border: 1px solid #e2e8f0;
+    border-radius: 24px;
+    font-family: 'Cairo', sans-serif;
+    background: white;
+    cursor: pointer;
+}
+
+/* ========= زر العودة ========= */
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 32px 48px 48px;
+    padding: 12px 24px;
+    background: #f1f5f9;
+    border-radius: 40px;
+    color: #475569;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.back-link:hover {
+    background: #e2e8f0;
+    transform: translateX(-4px);
+}
+
+/* ========= حالة الزيارة ========= */
+.status-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.status-badge.confirmed {
+    background: #d1fae5;
+    color: #059669;
+}
+
+.status-badge.pending {
+    background: #fed7aa;
+    color: #f59e0b;
+}
+
+/* ========= أنيميشن ========= */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ========= استجابة للشاشات الصغيرة ========= */
+@media (max-width: 768px) {
+    body {
+        padding: 20px;
+    }
+    
+    .header-content {
+        flex-direction: column;
+        text-align: center;
+        padding: 30px 24px;
+    }
+    
+    .clinic-selector, .search-section, .table-container, .total-section, .pay-btn {
+        margin-left: 24px;
+        margin-right: 24px;
+        width: calc(100% - 48px);
+    }
+    
+    .patient-card {
+        margin: 24px;
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .section-title {
+        margin: 24px 24px 16px;
+    }
+    
+    .back-link {
+        margin: 24px;
+    }
+    
+    .invoice-table th, .invoice-table td,
+    .visits-table th, .visits-table td {
+        padding: 10px 12px;
+        font-size: 12px;
+    }
+}
+/* ========= معلومات العيادة والدكتور في البطاقة ========= */
+.clinic-name-card, .doctor-name-card {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+    font-size: 15px;
+}
+
+.clinic-name-card .label, .doctor-name-card .label {
+    color: #64748b;
+    font-weight: 500;
+}
+
+.clinic-name-card .value, .doctor-name-card .value {
+    color: #1e293b;
+    font-weight: 600;
+    background: rgba(251, 191, 36, 0.15);
+    padding: 2px 12px;
+    border-radius: 20px;
+}
+
+.doctor-name-card .value {
+    background: rgba(59, 130, 246, 0.15);
+    color: #2563eb;
+}
+
+.clinic-name-card .value {
+    color: #f59e0b;
+}

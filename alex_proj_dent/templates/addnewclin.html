@@ -1,0 +1,144 @@
+{% load static %}
+<!doctype html>
+<html lang="ar">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <title>إضافة / تعديل بيانات العيادة</title>
+        <link rel="stylesheet" href="{% static 'css/adnwclin.css' %}" />
+    </head>
+    <body>
+    <header class="top-bar">
+        <div class="logo-area">
+            <i class="fas fa-user-md"></i>
+            <span>إدارة<span class="highlight">إدارة العيادات</span></span>
+        </div>
+        <div class="user-area">
+            <div class="welcome-text">
+                <i class="fas fa-user-astronaut"></i>
+                <span>مرحباً، {{ request.session.user }}</span>
+            </div>
+            <a href="{% url 'logout' %}" class="logout-icon-btn">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>خروج</span>
+            </a>
+        </div>
+    </header>
+        <div class="mycard">
+            <h2>إضافة / تعديل العيادة</h2>
+
+            <form id="clinform" autocomplete="off">
+                {% csrf_token %}
+
+                <div class="input-group">
+                    <label for="first_p">اسم مدير العيادة:</label>
+                    <input
+                        type="text"
+                        id="first_p"
+                        name="first_p"
+                        placeholder="ادخل اسم المدير"
+                        required
+                    />
+                </div>
+
+                <div class="input-group">
+                    <label for="phone_p">رقم الهاتف:</label>
+                    <input
+                        type="number"
+                        id="phone_p"
+                        name="phone_p"
+                        placeholder="ادخل رقم الهاتف"
+                        required
+                    />
+                </div>
+
+                <div class="input-group sensitive">
+                    <label for="user_p">اسم المستخدم:</label>
+                    <input type="text" id="user_p" name="user_p" placeholder="اسم المستخدم" />
+                </div>
+
+                <div class="input-group sensitive">
+                    <label for="passwordu_p">كلمة المرور:</label>
+                    <input
+                        type="password"
+                        id="passwordu_p"
+                        name="passwordu_p"
+                        placeholder="ادخل كلمة المرور"
+                    />
+                </div>
+
+                <div class="input-group sensitive">
+                    <label for="mang_e">البريد الالكتروني:</label>
+                    <input type="email" id="mang_e" name="mang_e" />
+                </div>
+
+                <div class="input-group sensitive">
+                    <label for="address">العنوان:</label>
+                    <textarea id="address" name="address" rows="3"></textarea>
+                </div>
+
+                <div class="input-group sensitive">
+                    <label for="joined_date_p">تاريخ الانضمام:</label>
+                    <input
+                        type="date"
+                        id="joined_date_p"
+                        name="joined_date_p"
+                        value="{% now 'Y-m-d' %}"
+                    />
+                </div>
+
+                <div class="input-group">
+                    <label for="clin_name_p">اسم العيادة:</label>
+                    <input
+                        type="text"
+                        id="clin_name_p"
+                        name="clin_name_p"
+                        placeholder="ادخل اسم الفرع"
+                        required
+                    />
+                </div>
+
+                <div class="input-group sensitive">
+                    <label for="clin_code">رمز العيادة (clinic_id):</label>
+                    <input
+                        type="number"
+                        id="clin_code"
+                        name="clinic_id"
+                        value="{{ last_clin_code|add:'1' }}"
+                        readonly
+                    />
+                </div>
+
+                <button type="submit" class="primary-btn">💾 حفظ البيانات</button>
+                <button
+                    type="button"
+                    id="cancelEditBtn"
+                    class="secondary-btn"
+                    style="display:none;"
+                >
+                    إلغاء التعديل
+                </button>
+            </form>
+
+            <h3>قائمة العيادات</h3>
+            <table id="clintab">
+                <thead>
+                    <tr>
+                        <th>اسم المدير</th>
+                        <th>اسم العيادة</th>
+                        <th>رقم العيادة</th>
+                        <th>رقم الهاتف</th>
+                        <th>اسم المستخدم</th>
+                        <th>البريد الإلكتروني</th>
+                        <th>العنوان</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+
+            <a href="{% url 'supervisor_home' %}" class="back-link">⬅ العودة إلى الصفحة الرئيسية</a>
+        </div>
+
+        <script src="{% static 'js/addclin.js' %}"></script>
+    </body>
+</html>

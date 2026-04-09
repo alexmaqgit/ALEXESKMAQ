@@ -1,0 +1,404 @@
+/* ============================================================
+   التصميم الفاخر - متوافق مع Safari و iOS وجميع المتصفحات
+   ============================================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Tajawal', 'Cairo', sans-serif;
+    background: linear-gradient(135deg, #f5f0e7 0%, #e8dfd3 100%);
+    min-height: 100vh;
+    padding: 40px 24px;
+    direction: rtl;
+    color: #1e2a2f;
+}
+
+/* الحاوية الرئيسية */
+.luxury-container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* قسم الهيرو الفاخر */
+.hero-section {
+    text-align: center;
+    margin-bottom: 48px;
+    position: relative;
+}
+
+.hero-section h1 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #b8860b, #daa520, #f4d03f);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    letter-spacing: -0.5px;
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.hero-section h1 i {
+    background: none;
+    -webkit-background-clip: unset;
+    background-clip: unset;
+    color: #c9a03d;
+    font-size: 2.4rem;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.sub {
+    font-size: 1.1rem;
+    color: #6b4c2c;
+    background: rgba(255,250,240,0.85); /* بديل للـ backdrop-filter للمتصفحات القديمة */
+    display: inline-block;
+    padding: 6px 20px;
+    border-radius: 60px;
+    margin-top: 12px;
+    font-weight: 500;
+}
+
+/* شبكة الكروت */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr 2.2fr;
+    gap: 28px;
+}
+
+/* الكروت - بدون backdrop-filter غير الآمن */
+.add-card, .search-table-card {
+    background: #ffffff;
+    border-radius: 32px;
+    box-shadow: 0 20px 35px -12px rgba(0,0,0,0.2), 0 0 0 1px rgba(210,180,140,0.2);
+    transition: transform 0.25s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+}
+
+.add-card:hover, .search-table-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 28px 40px -14px rgba(0,0,0,0.25);
+}
+
+/* رأس الكارت */
+.card-header {
+    background: linear-gradient(112deg, #2c2b28 0%, #1f1e1c 100%);
+    padding: 20px 28px;
+    border-bottom: 2px solid #e4bc7c;
+}
+
+.card-header h2 {
+    color: #f7f3eb;
+    font-size: 1.5rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+}
+
+.card-header h2 i {
+    color: #e4bc7c;
+    font-size: 1.6rem;
+}
+
+/* محتوى النموذج */
+.form-body {
+    padding: 28px;
+}
+
+.input-group {
+    margin-bottom: 24px;
+}
+
+.input-group label {
+    display: block;
+    font-weight: 600;
+    color: #3c2a1f;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    letter-spacing: 0.3px;
+}
+
+.input-group label i {
+    color: #b8860b;
+    margin-left: 8px;
+    width: 24px;
+}
+
+.input-group input,
+.input-group textarea {
+    width: 100%;
+    padding: 12px 16px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 1rem;
+    border: 1px solid #e2d4c0;
+    border-radius: 20px;
+    background: #fefaf5;
+    transition: all 0.2s;
+    outline: none;
+    color: #1e2a2f;
+}
+
+.input-group input:focus,
+.input-group textarea:focus {
+    border-color: #c9a03d;
+    box-shadow: 0 0 0 3px rgba(201,160,61,0.2);
+    background: #ffffff;
+}
+
+.input-group textarea {
+    min-height: 90px;
+    resize: vertical;
+}
+
+/* الأزرار */
+.btn-group {
+    display: flex;
+    gap: 16px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+.btn-primary, .btn-secondary {
+    border: none;
+    padding: 12px 28px;
+    border-radius: 40px;
+    font-weight: 600;
+    font-size: 1rem;
+    font-family: 'Tajawal', sans-serif;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn-primary {
+    background: linear-gradient(95deg, #b8860b, #d4af37);
+    color: #1e1a14;
+    box-shadow: 0 5px 12px rgba(184,134,11,0.3);
+}
+
+.btn-primary:hover {
+    transform: scale(1.02);
+    background: linear-gradient(95deg, #c49a1c, #e4bc7c);
+    box-shadow: 0 8px 18px rgba(184,134,11,0.4);
+}
+
+.btn-secondary {
+    background: #2c3e33;
+    color: #f2e8da;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.btn-secondary:hover {
+    background: #1f2e26;
+    transform: scale(1.02);
+}
+
+/* رأس البحث */
+.search-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 28px 12px 28px;
+    gap: 16px;
+    border-bottom: 1px solid #ede3d2;
+}
+
+.search-wrapper {
+    flex: 2;
+    position: relative;
+}
+
+.search-wrapper i {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #b8860b;
+    font-size: 1.1rem;
+}
+
+.search-wrapper input {
+    width: 100%;
+    padding: 12px 44px 12px 18px;
+    border-radius: 60px;
+    border: 1px solid #e0cfbb;
+    background: #fffcf8;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 1rem;
+    transition: all 0.2s;
+}
+
+.search-wrapper input:focus {
+    border-color: #c9a03d;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(201,160,61,0.2);
+}
+
+.result-badge {
+    background: #f1ebe1;
+    border-radius: 40px;
+    padding: 8px 20px;
+    font-weight: 500;
+    color: #5e3a1c;
+    font-size: 0.85rem;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+}
+
+/* حاوية الجدول */
+.table-container {
+    padding: 0 20px 20px 20px;
+    overflow-x: auto;
+}
+
+.drug-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+    font-size: 0.9rem;
+}
+
+.drug-table thead th {
+    background: #f7efe3;
+    color: #4a2e1a;
+    padding: 14px 12px;
+    font-weight: 700;
+    text-align: center;
+    border-radius: 20px 20px 12px 12px;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+}
+
+.drug-table tbody tr {
+    background: rgba(255,255,240,0.95);
+    border-radius: 24px;
+    transition: all 0.2s;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+}
+
+.drug-table tbody tr:hover {
+    background: #fffcf5;
+    transform: scale(1.002);
+    box-shadow: 0 8px 18px -8px rgba(0,0,0,0.1);
+}
+
+.drug-table td {
+    padding: 14px 10px;
+    text-align: center;
+    border-bottom: 1px solid #f0e3d4;
+    color: #2c2b28;
+}
+
+/* أزرار الجدول */
+.drug-table button {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    margin: 0 4px;
+    padding: 6px 10px;
+    border-radius: 30px;
+    transition: 0.2s;
+}
+
+.drug-table button:first-child {
+    color: #c9a03d;
+    background: #fff2e0;
+}
+
+.drug-table button:first-child:hover {
+    background: #e4bc7c;
+    color: #1e1a14;
+    transform: scale(1.05);
+}
+
+.drug-table button:last-child {
+    color: #b35f4b;
+    background: #fff0ec;
+}
+
+.drug-table button:last-child:hover {
+    background: #d96c4e;
+    color: white;
+}
+
+/* رسالة فارغة أو تحميل */
+.empty-row td {
+    text-align: center;
+    padding: 40px !important;
+    color: #8b7355;
+    font-style: italic;
+    background: transparent;
+}
+
+/* تنبيهات toast - متوافقة */
+.toast-message {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    background: rgba(30,30,28,0.95);
+    color: #f5e7d9;
+    padding: 14px 28px;
+    border-radius: 60px;
+    font-weight: 500;
+    z-index: 9999;
+    font-size: 0.9rem;
+    border-right: 4px solid #e4bc7c;
+    box-shadow: 0 12px 22px -8px rgba(0,0,0,0.3);
+    font-family: 'Tajawal', sans-serif;
+}
+
+/* زر تحميل المزيد */
+#loadMoreBtn {
+    display: block;
+    margin: 20px auto 10px;
+    background: linear-gradient(135deg, #cfb284, #b48c48);
+    border: none;
+    color: #2c241a;
+    font-weight: bold;
+    padding: 10px 24px;
+    border-radius: 60px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: 0.2s;
+    width: fit-content;
+    font-family: 'Tajawal', sans-serif;
+}
+
+#loadMoreBtn:hover {
+    background: #daa520;
+    transform: scale(1.02);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* استجابة للشاشات الصغيرة */
+@media (max-width: 880px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+        gap: 28px;
+    }
+    .hero-section h1 {
+        font-size: 2rem;
+    }
+    .search-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .result-badge {
+        text-align: center;
+        white-space: normal;
+    }
+    body {
+        padding: 20px 16px;
+    }
+}

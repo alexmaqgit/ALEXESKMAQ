@@ -1,0 +1,112 @@
+{% load static %}
+<!doctype html>
+<html lang="ar">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>إدارة الأطباء - نظام العيادات</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/adnwclin.css' %}">
+</head>
+<body>
+
+    <!-- ===== الشريط العلوي (مطابق لـ supervisor_home) ===== -->
+    <header class="top-bar">
+        <div class="logo-area">
+            <i class="fas fa-user-md"></i>
+            <span>إدارة<span class="highlight"> الأطباء</span></span>
+        </div>
+        <div class="user-area">
+            <div class="welcome-text">
+                <i class="fas fa-user-astronaut"></i>
+                <span>مرحباً، {{ request.session.user }}</span>
+            </div>
+            <a href="{% url 'logout' %}" class="logout-icon-btn">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>خروج</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- المحتوى الرئيسي -->
+    <div class="mycard">
+        <h2>إضافة / تعديل الدكتور</h2>
+
+        <form id="doctorForm" autocomplete="off">
+            {% csrf_token %}
+
+            <!-- كل حقل في بطاقة مستقلة -->
+            <div class="input-group">
+                <label for="doctor_name"><i class="fas fa-user"></i> اسم الدكتور:</label>
+                <input type="text" id="doctor_name" name="doctor_name" placeholder="ادخل اسم الدكتور" required>
+            </div>
+
+            <div class="input-group sensitive" style="display: none;">
+                <label for="doctor_id"><i class="fas fa-id-badge"></i> رقم الدكتور:</label>
+                <input type="number" id="doctor_id" name="doctor_id" placeholder="رقم تلقائي">
+            </div>
+
+            <div class="input-group">
+                <label for="specialty"><i class="fas fa-stethoscope"></i> التخصص الدقيق:</label>
+                <input type="text" id="specialty" name="specialty" placeholder="مثال: أسنان عامة">
+            </div>
+
+            <div class="input-group">
+                <label for="phone"><i class="fas fa-phone"></i> رقم الهاتف:</label>
+                <input type="tel" id="phone" name="phone" placeholder="05xxxxxxxx">
+            </div>
+
+            <div class="input-group">
+                <label for="email"><i class="fas fa-envelope"></i> البريد الإلكتروني:</label>
+                <input type="email" id="email" name="email" placeholder="doctor@example.com">
+            </div>
+
+            <div class="input-group sensitive">
+                <label for="username"><i class="fas fa-user-circle"></i> اسم المستخدم:</label>
+                <input type="text" id="username" name="username" placeholder="اختر اسم مستخدم">
+            </div>
+
+            <div class="input-group sensitive">
+                <label for="password"><i class="fas fa-lock"></i> كلمة المرور:</label>
+                <input type="password" id="password" name="password" placeholder="********">
+            </div>
+
+            <div class="input-group">
+                <label for="address"><i class="fas fa-map-marker-alt"></i> العنوان:</label>
+                <textarea id="address" name="address" rows="2" placeholder="العنوان الكامل"></textarea>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="primary-btn">💾 حفظ البيانات</button>
+                <button type="button" id="cancelEditBtn" class="secondary-btn" style="display:none;">إلغاء التعديل</button>
+            </div>
+        </form>
+
+        <h3>قائمة الدكاترة</h3>
+        <div class="table-wrapper">
+            <table id="doctorTable">
+                <thead>
+                    <tr>
+                        <th>اسم الدكتور</th>
+                        <th>رقم الدكتور</th>
+                        <th>التخصص</th>
+                        <th>رقم الهاتف</th>
+                        <th>البريد الالكتروني</th>
+                        <th>اسم المستخدم</th>
+                        <th>العنوان</th>
+                        <th>إجراء</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <a href="{% url 'supervisor_home' %}" class="back-link">
+            <i class="fas fa-arrow-right"></i> العودة إلى الصفحة الرئيسية
+        </a>
+    </div>
+
+    <script src="{% static 'js/adddoctor.js' %}"></script>
+</body>
+</html>

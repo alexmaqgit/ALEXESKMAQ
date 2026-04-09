@@ -1,0 +1,14 @@
+# استخرج رقم الزيارة
+        result = db.execute_bulk({
+             "VISITS": [{
+                 "select": True,
+                 "condition": f"""
+                     DOCTOR_ID = {doctor_id}
+                    AND FILE_PAT_NO = {file_pat_no}
+                    AND TRUNC(VISIT_DATE) = TRUNC({db.sysdate})
+                     """
+                }]
+            })
+        visits = result.get("select", {}).get("VISITS", [])
+        visit_number = visits[0]["VISIT_NUMBER"] if visits else None
+        print("visit_number+++++++++++++++++++++++++++++++++++visit_number",visit_number)

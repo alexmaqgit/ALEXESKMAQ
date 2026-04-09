@@ -1,0 +1,197 @@
+/* ===== قاعدة الشاشة ===== */
+body {
+    font-family: 'Cairo', sans-serif;
+    background: linear-gradient(135deg, #eef2f7, #dfe7f1);
+    margin: 0;
+    padding: 20px;
+    direction: rtl;
+}
+
+/* ===== الحاوية ===== */
+.container {
+    display: flex;
+    gap: 20px;
+}
+
+/* ===== قائمة الزيارات ===== */
+.visits-list {
+    width: 300px;
+    background: #fff;
+    border-radius: 14px;
+    padding: 16px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.07);
+    max-height: 85vh;
+    overflow-y: auto;
+    position: relative;
+}
+
+#searchInput {
+    width: 100%;
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: 1px solid #e3e7ee;
+    margin-bottom: 8px;
+}
+
+.dropdown {
+    position: absolute;
+    width: 100%;
+    background: white;
+    border-radius: 10px;
+    max-height: 220px;
+    overflow-y: auto;
+    display: none;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+    z-index: 100;
+}
+
+.dropdown div {
+    padding: 9px 12px;
+    cursor: pointer;
+    border-bottom: 1px solid #f1f3f7;
+}
+
+.dropdown div:hover {
+    background: #f2f6fc;
+    color: #1976d2;
+}
+
+/* ===== أزرار الزيارات ===== */
+#visitsList {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 15px;
+}
+
+.visit-btn {
+    padding: 8px 10px;
+    border-radius: 6px;
+    background: #f4f6fa;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.visit-btn:hover {
+    background: #e8eef8;
+}
+
+.visit-btn.active {
+    background: #1976d2;
+    color: white;
+}
+
+/* أزرار تعديل/دفع داخل كل زيارة */
+.visit-btn button {
+    margin-left: 5px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    color: white;
+    font-size: 12px;
+}
+
+.visit-btn .edit-btn {
+    background-color: #ffc107;
+}
+
+.visit-btn .pay-btn {
+    background-color: #28a745;
+}
+
+/* ===== قسم التفاصيل ===== */
+.report-section {
+    flex-grow: 1;
+}
+
+.visit-report {
+    background: #fff;
+    border-radius: 16px;
+    padding: 25px;
+    min-height: 420px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+    border-right: 6px solid #1976d2;
+    margin-bottom: 15px;
+}
+
+.main-btn {
+    background-color: #1976d2;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.main-btn:hover {
+    background-color: #1565c0;
+}
+
+/* خيارات الزيارة */
+.visit-options {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.visit-options button {
+    padding: 5px 12px;
+    border-radius: 6px;
+    border: none;
+    background-color: #17a2b8;
+    color: white;
+    cursor: pointer;
+}
+
+.visit-options button:hover {
+    background-color: #117a8b;
+}
+
+/* مودال */
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 400px;
+}
+
+.modal-content textarea {
+    width: 100%;
+    height: 100px;
+    margin-bottom: 10px;
+}
+
+.modal-actions button {
+    padding: 6px 12px;
+    margin-right: 10px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+}
+
+.save-btn {
+    background-color: #28a745;
+    color: white;
+}
+
+.cancel-btn {
+    background-color: #dc3545;
+    color: white;
+}

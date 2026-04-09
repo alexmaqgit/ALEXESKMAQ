@@ -1,0 +1,21 @@
+{% load static %}
+<!doctype html>
+<html lang="ar">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>{% block title %}عيادة الأسنان المتقدمة{% endblock %}</title>
+        <script src="{% static 'js/booking.js' %}" defer></script>
+        <!-- روابط CSS الأساسية -->
+        <link rel="stylesheet" href="{% static 'css/booking.css' %}" />
+        <link rel="stylesheet" href="{% static 'base.css' %}" />
+
+        {% block extra_head %}{% endblock %}
+    </head>
+    <body>
+        <main>{% block content %}{% endblock %}</main>
+
+        <!-- روابط JS الأساسية -->
+        {% block extra_js %}{% endblock %}
+    </body>
+</html>

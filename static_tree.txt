@@ -1,0 +1,6 @@
+Folder PATH listing for volume وحدة تخزين جديدة
+Volume serial number is 00000052 2A30:08CA
+E:\PROJECT2026\ALEX_PROJ_DENT\STATIC
+Invalid path - \PROJECT2026\ALEX_PROJ_DENT\STATIC
+No subfolders exist 
+

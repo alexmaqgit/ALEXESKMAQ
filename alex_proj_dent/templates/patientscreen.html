@@ -1,0 +1,168 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدارة المرضى - نظام العيادات</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/patientscreen.css' %}">
+    <script src="{% static 'js/patientscreen.js' %}?v=5" defer></script>
+</head>
+<body>
+
+    <!-- ===== الشريط العلوي الموحد ===== -->
+    <header class="top-bar">
+        <div class="logo-area">
+            <i class="fas fa-notes-medical"></i>
+            <span>إدارة<span class="highlight"> المرضى</span></span>
+        </div>
+        <div class="user-area">
+            <div class="welcome-text">
+                <i class="fas fa-user-astronaut"></i>
+                <span>مرحباً، {{ request.session.user }}</span>
+            </div>
+            <a href="{% url 'logout' %}" class="logout-icon-btn">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>خروج</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="mycard">
+        <h2>إدارة المرضى</h2>
+
+        <!-- شبكة الأقسام الرئيسية -->
+        <div class="dashboard-grid">
+            <!-- بطاقة بيانات المريض مع حقل البحث المدمج -->
+            <div class="card card-wide" id="patientDataCard">
+                <h3><i class="fas fa-id-card"></i> بيانات المريض</h3>
+                
+                <!-- حقل البحث مدمج مع زر -->
+                <div class="search-section">
+                    <div class="search-wrapper">
+                        <input type="text" id="searchInput" placeholder="ابحث برقم الملف أو الاسم... اختر المريض من النتائج">
+                        <button type="button" id="showTempAppointmentsBtn" class="search-temp-btn" title="عرض الحجوزات المؤقتة">
+                            <i class="fas fa-hourglass-half"></i>
+                        </button>
+                    </div>
+                    <div id="searchResults" class="search-results"></div>
+                </div>
+
+                <!-- نموذج بيانات المريض -->
+                <form id="patientForm">
+                    <div class="form-grid">
+                        <div class="input-group">
+                            <label for="filePatNo"><i class="fas fa-folder-open"></i> رقم ملف المريض</label>
+                            <input type="text" id="filePatNo" readonly required>
+                        </div>
+                        <div class="input-group">
+                            <label for="patientName"><i class="fas fa-user"></i> الاسم</label>
+                            <input type="text" id="patientName" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="age"><i class="fas fa-birthday-cake"></i> العمر</label>
+                            <input type="number" id="age" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="phone"><i class="fas fa-phone-alt"></i> رقم الهاتف</label>
+                            <input type="text" id="phone" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="gender"><i class="fas fa-venus-mars"></i> الجنس</label>
+                            <select id="gender" required>
+                                <option value="ذكر">ذكر</option>
+                                <option value="أنثى">أنثى</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label for="currentAddress"><i class="fas fa-map-marker-alt"></i> السكن الحالي</label>
+                            <input type="text" id="currentAddress" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="registrationDate"><i class="fas fa-calendar-alt"></i> تاريخ التسجيل</label>
+                            <input type="date" id="registrationDate" readonly required>
+                        </div>
+                    </div>
+                    <div class="button-group">
+                        <button type="button" id="clearFormBtn" class="clear-btn">🗑️ مسح الحقول</button>
+                        <button type="submit" class="primary-btn" style="display: none;">➕ إضافة مريض</button>
+                        <button type="button" id="updatePatientBtn" class="secondary-btn">✏️ تعديل البيانات</button>
+                        <button type="button" id="showAppointmentBtn" class="appointment-btn" disabled>📅 حجز موعد</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- قسم الحجوزات المؤقتة (مخفي في البداية) -->
+        <div class="card" id="tempAppointmentsCard" style="display: none; margin-top: 1.8rem;">
+            <h3><i class="fas fa-hourglass-half"></i> الحجوزات المؤقتة</h3>
+            <div class="form-group">
+                <label for="tempSearch"><i class="fas fa-search"></i> بحث</label>
+                <input type="text" id="tempSearch" placeholder="ابحث باسم المريض">
+            </div>
+            <div id="tempResults" class="temp-results"></div>
+            <div class="button-group" style="margin-top: 1rem;">
+                <button type="button" id="closeTempBtn" class="secondary-btn">❌ إغلاق</button>
+            </div>
+        </div>
+
+        <div class="back-link-container">
+            <a href="{% url 'supervisor_home' %}" class="back-link">
+                <i class="fas fa-arrow-right"></i> العودة إلى الصفحة الرئيسية
+            </a>
+        </div>
+    </div>
+
+    <!-- ===== النافذة المنبثقة لحجز الموعد ===== -->
+    <div id="appointmentModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-calendar-plus"></i> حجز موعد جديد</h3>
+                <button class="modal-close" id="closeModalBtn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="modalConditionInput"><i class="fas fa-diagnoses"></i> الحالة المرضية</label>
+                    <div class="autocomplete-wrapper">
+                        <input type="text" id="modalConditionInput" placeholder="اكتب اسم الحالة (عربي/إنجليزي)" autocomplete="off">
+                        <div id="modalConditionSuggestions" class="autocomplete-suggestions"></div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="modalClinicSelect"><i class="fas fa-hospital-user"></i> العيادة</label>
+                        <select id="modalClinicSelect">
+                            <option value="">اختر العيادة</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="modalDoctorSelect"><i class="fas fa-user-md"></i> الدكتور</label>
+                        <select id="modalDoctorSelect" required>
+                            <option value="" disabled selected>اختر الدكتور</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="modalNewDate"><i class="fas fa-calendar-day"></i> اليوم</label>
+                        <input type="date" id="modalNewDate">
+                    </div>
+                    <div class="form-group">
+                        <label for="modalNewTimeSlot"><i class="fas fa-clock"></i> الفترة</label>
+                        <select id="modalNewTimeSlot" required>
+                            <option value="" disabled selected>اختر الفترة</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="modalSaveAppointmentBtn" class="primary-btn">💾 حفظ الموعد</button>
+                <button type="button" id="cancelAppointmentBtn" class="secondary-btn">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

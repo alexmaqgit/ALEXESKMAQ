@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>تسجيل الدخول</title>
+
+        {% load static %}
+
+        <link rel="stylesheet" href="{% static 'css/login.css' %}" />
+        <link rel="icon" type="image/x-icon" href="{% static 'img/favicon.ico' %}" />
+    </head>
+
+    <body>
+        <div class="login-wrapper">
+            <div class="login-card">
+                <div class="logo-box">
+                    <img src="{% static 'img/imageslogo.png' %}" alt="Logo" />
+                </div>
+
+                <!-- ✅ عرض رسائل التنبيه من Django Messages -->
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
+                <!-- ✅ عرض رسائل الخطأ من الـ View -->
+                {% if error %}
+                    <div class="alert alert-error">
+                        {{ error }}
+                    </div>
+                {% endif %}
+
+                <h2 class="login-title">تسجيل الدخول</h2>
+
+                <form id="loginForm" method="post" action="{% url 'login_system' %}">
+                    {% csrf_token %}
+
+                    <!-- اسم المستخدم -->
+                    <label for="username">اسم المستخدم</label>
+                    <input 
+                        type="text" 
+                        name="username" 
+                        id="username" 
+                        required 
+                        autocomplete="username"
+                        placeholder="أدخل اسم المستخدم"
+                    />
+
+                    <!-- كلمة المرور -->
+                    <label for="password">كلمة السر</label>
+                    <div class="password-box">
+                        <input 
+                            type="password" 
+                            name="password" 
+                            id="password" 
+                            required 
+                            autocomplete="current-password"
+                            placeholder="أدخل كلمة المرور"
+                        />
+                        <span class="toggle-pass" id="togglePass">👁</span>
+                    </div>
+
+                    <!-- اختيار العيادة (يظهر فقط للأطباء) -->
+                    <div id="clinic_div" style="display:none;">
+                        <label for="clinic_select">اختر العيادة:</label>
+                        <select name="clinic_code" id="clinic_select">
+                            <option value="">-- اختر العيادة --</option>
+                            {% for cle in clen %}
+                                <option value="{{ cle.CLINIC_ID }}">
+                                    {{ cle.CLINIC_NAME }} ({{ cle.CLINIC_ID }})
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- زر الدخول -->
+                    <button type="submit" id="loginBtn">دخول إلى النظام</button>
+                </form>
+            </div>
+        </div>
+
+        <script src="{% static 'js/login.js' %}"></script>
+        
+        <script>
+            // إخفاء الرسائل تلقائياً بعد 5 ثواني
+            setTimeout(function() {
+                var alerts = document.querySelectorAll('.alert');
+                alerts.forEach(function(alert) {
+                    alert.style.opacity = '0';
+                    setTimeout(function() {
+                        alert.style.display = 'none';
+                    }, 300);
+                });
+            }, 5000);
+        </script>
+    </body>
+</html>

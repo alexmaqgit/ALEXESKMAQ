@@ -1,0 +1,75 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدارة الخدمات - نظام العيادات</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/servprac.css' %}">
+</head>
+<body>
+
+    <header class="top-bar">
+        <div class="logo-area">
+            <i class="fas fa-concierge-bell"></i>
+            <span>إدارة<span class="highlight"> الخدمات</span></span>
+        </div>
+        <div class="user-area">
+            <div class="welcome-text">
+                <i class="fas fa-user-astronaut"></i>
+                <span>مرحباً، {{ request.session.user }}</span>
+            </div>
+            <a href="{% url 'logout' %}" class="logout-icon-btn">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>خروج</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="mycard">
+        <h2>إدارة الخدمات</h2>
+
+        <form id="serviceForm">
+            {% csrf_token %}
+            <div class="input-group">
+                <label for="serviceName"><i class="fas fa-tag"></i> اسم الخدمة:</label>
+                <input type="text" id="serviceName" placeholder="مثال: فحص أسنان" required>
+            </div>
+            <div class="input-group">
+                <label for="servicePrice"><i class="fas fa-money-bill-wave"></i> السعر (ريال):</label>
+                <input type="number" id="servicePrice" placeholder="0" required>
+            </div>
+            <div class="input-group">
+                <label for="clinicNumber"><i class="fas fa-hospital-user"></i> رقم العيادة:</label>
+                <input type="text" id="clinicNumber" placeholder="مثال: 1 أو عيادة الأسنان" required>
+            </div>
+            <button type="submit" class="primary-btn">➕ إضافة الخدمة</button>
+        </form>
+
+        <h3>قائمة الخدمات</h3>
+        <div class="table-wrapper">
+            <table id="servicesTable">
+                <thead>
+                    <tr>
+                        <th>اسم الخدمة</th>
+                        <th>السعر (ريال)</th>
+                        <th>رقم العيادة</th>
+                        <th>إجراءات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- سيتم ملؤها بواسطة JavaScript -->
+                </tbody>
+            </table>
+        </div>
+
+        <a href="{% url 'supervisor_home' %}" class="back-link">
+            <i class="fas fa-arrow-right"></i> العودة إلى الصفحة الرئيسية
+        </a>
+    </div>
+
+    <script src="{% static 'js/servprac.js' %}" defer></script>
+</body>
+</html>

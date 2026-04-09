@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}إدارة فترات الزيارة - نظام العيادات{% endblock %}
+
+{% block extra_head %}
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/visit_periods.css' %}">
+{% endblock %}
+
+{% block content %}
+    <!-- شريط علوي مطابق لـ supervisor_home -->
+    <header class="top-bar">
+        <div class="logo-area">
+            <i class="fas fa-clock"></i>
+            <span>إدارة<span class="highlight"> فترات الزيارة</span></span>
+        </div>
+        <div class="user-area">
+            <div class="welcome-text">
+                <i class="fas fa-user-astronaut"></i>
+                <span>مرحباً، {{ request.session.user }}</span>
+            </div>
+            <a href="{% url 'logout' %}" class="logout-icon-btn">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>خروج</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="mycard">
+        <h2>⏱️ إدارة فترات الزيارة (أول زيارة)</h2>
+
+        <!-- زر إنشاء الجدول -->
+        <div class="action-buttons">
+            <button id="createTableBtn" class="primary-btn" type="button">
+                <i class="fas fa-tools"></i> إنشاء جدول الفترات
+            </button>
+        </div>
+        <p id="tableStatus" class="table-status"></p>
+
+        <!-- نموذج إضافة / تعديل -->
+        <form id="periodForm">
+            {% csrf_token %}
+            <input type="hidden" id="period_id" />
+
+            <div class="form-grid">
+                <div class="input-group">
+                    <label for="period_number"><i class="fas fa-hashtag"></i> رقم الفترة:</label>
+                    <input type="number" id="period_number" placeholder="مثال: 1" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="start_time"><i class="fas fa-play-circle"></i> تبدأ من:</label>
+                    <input type="time" id="start_time" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="end_time"><i class="fas fa-stop-circle"></i> تنتهي في:</label>
+                    <input type="time" id="end_time" required>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="primary-btn">💾 حفظ الفترة</button>
+            </div>
+        </form>
+
+        <!-- جدول الفترات -->
+        <div class="table-wrapper">
+            <table class="periods-table">
+                <thead>
+                    <tr>
+                        <th>رقم الفترة</th>
+                        <th>تبدأ من</th>
+                        <th>تنتهي في</th>
+                        <th>إجراء</th>
+                    </tr>
+                </thead>
+                <tbody id="periodsBody">
+                    <!-- يتم تعبئته بواسطة JavaScript -->
+                </tbody>
+            </table>
+        </div>
+
+        <a href="{% url 'supervisor_home' %}" class="back-link">
+            <i class="fas fa-arrow-right"></i> العودة إلى الصفحة الرئيسية
+        </a>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'js/visit_periods.js' %}"></script>
+{% endblock %}

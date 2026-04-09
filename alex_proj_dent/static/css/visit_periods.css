@@ -1,0 +1,407 @@
+/* visit_periods.css - تصميم أنيق لفترات الزيارة */
+:root {
+    --primary-dark: #1f3a6b;
+    --primary: #2c7da0;
+    --primary-light: #61a5c2;
+    --accent-gradient: linear-gradient(135deg, #2c7da0, #1f3a6b);
+    --bg-gradient: linear-gradient(145deg, #f0f4fa 0%, #d9e2ef 100%);
+    --card-white: #ffffff;
+    --shadow-sm: 0 8px 20px rgba(0, 0, 0, 0.06);
+    --shadow-hover: 0 15px 30px rgba(0, 0, 0, 0.1);
+    --border-radius-card: 32px;
+    --border-radius-input: 20px;
+    --border-radius-btn: 48px;
+    --danger: #e53935;
+    --danger-hover: #c62828;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Tajawal', sans-serif;
+    background: var(--bg-gradient);
+    color: #1e293b;
+    direction: rtl;
+    min-height: 100vh;
+}
+
+/* ===== الشريط العلوي ===== */
+.top-bar {
+    background: rgba(255, 255, 255, 0.85);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+}
+
+.logo-area {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #1f3a6b;
+}
+
+.logo-area i {
+    font-size: 2rem;
+    color: #2c7da0;
+}
+
+.logo-area .highlight {
+    color: #2c7da0;
+}
+
+.user-area {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.welcome-text {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #f0f4fa;
+    padding: 0.5rem 1.2rem;
+    border-radius: 60px;
+    font-weight: 500;
+    color: #1f3a6b;
+}
+
+.welcome-text i {
+    font-size: 1.2rem;
+    color: #2c7da0;
+}
+
+.logout-icon-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #eef2ff;
+    padding: 0.5rem 1.2rem;
+    border-radius: 60px;
+    text-decoration: none;
+    color: #1e293b;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+}
+
+.logout-icon-btn:hover {
+    background: #fee2e2;
+    color: #b91c1c;
+    border-color: #fecaca;
+}
+
+/* ===== البطاقة الرئيسية ===== */
+.mycard {
+    max-width: 1000px;
+    margin: 2rem auto;
+    background: rgba(255, 255, 255, 0.96);
+    border-radius: var(--border-radius-card);
+    padding: 2rem;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s ease;
+}
+
+.mycard:hover {
+    box-shadow: var(--shadow-hover);
+}
+
+/* العناوين */
+h2 {
+    font-size: 2rem;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 1.8rem;
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+
+h2::before {
+    content: "\f0f0";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 600;
+    font-size: 1.8rem;
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+/* أزرار الإجراءات العلوية */
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.table-status {
+    text-align: center;
+    margin-top: 0.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--primary);
+    font-weight: 500;
+}
+
+/* ===== حقول الإدخال على شكل كروت ===== */
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.input-group {
+    background: var(--card-white);
+    border-radius: 24px;
+    padding: 1rem 1.2rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    transition: all 0.25s ease;
+    border: 1px solid #eef2f9;
+}
+
+.input-group:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 24px -12px rgba(0, 0, 0, 0.12);
+    border-color: #dce5f0;
+}
+
+.input-group label {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--primary-dark);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.input-group label i {
+    color: var(--primary);
+    font-size: 1.1rem;
+    width: 24px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: var(--border-radius-input);
+    border: 1px solid #e2edf2;
+    background: #ffffff;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 0.95rem;
+    transition: all 0.2s;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(44, 125, 160, 0.1);
+}
+
+/* أزرار النموذج */
+.form-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
+.primary-btn {
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius-btn);
+    padding: 12px 28px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.25s;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Tajawal', sans-serif;
+    box-shadow: 0 4px 10px rgba(44, 125, 160, 0.2);
+}
+
+.primary-btn:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(31, 58, 107, 0.25);
+}
+
+/* ===== الجدول الأنيق ===== */
+.table-wrapper {
+    overflow-x: auto;
+    margin: 2rem 0;
+    border-radius: 24px;
+    background: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.periods-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    border-radius: 24px;
+    overflow: hidden;
+}
+
+.periods-table th {
+    background: #eef2ff;
+    color: var(--primary-dark);
+    padding: 14px 12px;
+    font-weight: 800;
+    text-align: center;
+    border-bottom: 2px solid #dce3ec;
+}
+
+.periods-table td {
+    padding: 12px 8px;
+    border-bottom: 1px solid #f0f2f7;
+    text-align: center;
+    background-color: white;
+}
+
+.periods-table tbody tr:hover td {
+    background-color: #f8fafd;
+}
+
+/* أزرار التعديل والحذف داخل الجدول */
+.btn-edit, .btn-delete {
+    padding: 6px 16px;
+    border-radius: 40px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    margin: 0 4px;
+    transition: all 0.2s;
+    font-size: 0.8rem;
+    font-family: 'Tajawal', sans-serif;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-edit {
+    background: var(--primary);
+    color: white;
+}
+
+.btn-edit:hover {
+    background: var(--primary-dark);
+    transform: scale(1.02);
+}
+
+.btn-delete {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+.btn-delete:hover {
+    background: #fecaca;
+    transform: scale(1.02);
+}
+
+/* زر العودة */
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 1rem;
+    padding: 10px 24px;
+    background: #eef2ff;
+    border-radius: 60px;
+    text-decoration: none;
+    color: var(--primary-dark);
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.back-link:hover {
+    background: white;
+    border: 1px solid var(--primary);
+    color: var(--primary);
+    transform: translateX(-5px);
+}
+
+/* ===== استجابة للشاشات الصغيرة ===== */
+@media (max-width: 768px) {
+    .top-bar {
+        flex-direction: column;
+        text-align: center;
+        padding: 1rem;
+    }
+    .mycard {
+        padding: 1rem;
+        margin: 1rem;
+    }
+    .form-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    .form-actions {
+        flex-direction: column;
+    }
+    .primary-btn {
+        width: 100%;
+        justify-content: center;
+    }
+    .table-wrapper {
+        border-radius: 16px;
+    }
+    .periods-table, .periods-table thead, .periods-table tbody, .periods-table th, .periods-table td, .periods-table tr {
+        display: block;
+    }
+    .periods-table thead {
+        display: none;
+    }
+    .periods-table tbody tr {
+        margin-bottom: 1rem;
+        border: 1px solid #e2e8f0;
+        border-radius: 20px;
+        padding: 0.8rem;
+        background: white;
+    }
+    .periods-table td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        border: none;
+        border-bottom: 1px solid #edf2f7;
+        text-align: right;
+    }
+    .periods-table td:last-child {
+        border-bottom: none;
+    }
+    .periods-table td::before {
+        content: attr(data-label);
+        font-weight: 800;
+        margin-left: 1rem;
+        color: var(--primary-dark);
+        font-size: 0.85rem;
+    }
+    .btn-edit, .btn-delete {
+        padding: 5px 12px;
+        font-size: 0.75rem;
+    }
+}

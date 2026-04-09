@@ -1,0 +1,240 @@
+{% load static %}
+<!doctype html>
+<html lang="ar" dir="rtl">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>شاشة الطبيب - نظام العيادات</title>
+        <link rel="icon" type="image/x-icon" href="{% static 'img/favicon.ico' %}" />
+        <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        <link rel="stylesheet" href="{% static 'css/doc_jop.css' %}?v=20250404" />
+        <script src="{% static 'js/doc_jop.js' %}" defer></script>
+    </head>
+    <body>
+
+        <!-- ===== الشريط العلوي الموحد ===== -->
+        <header class="top-bar">
+            <div class="logo-area">
+                <i class="fas fa-laptop-medical"></i>
+                <span>شاشة<span class="highlight"> الطبيب</span></span>
+            </div>
+            <a href="{% url 'supervisor_home' %}" class="back-link">
+            <i class="fas fa-arrow-right"></i> العودة إلى الرئيسية
+        </a>
+
+            <div class="user-area">
+                <div class="welcome-text">
+                    <i class="fas fa-user-astronaut"></i>
+                    <span>مرحباً، {{ request.session.user }}</span>
+                </div>
+                <a href="{% url 'logout' %}" class="logout-icon-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>خروج</span>
+                </a>
+            </div>
+        </header>
+
+        <!-- المحتوى الأصلي يبدأ هنا (لم يتغير أي شيء سوى زر العودة) -->
+        <div class="container">
+            <!-- قائمة الزيارات -->
+            <div class="visits-list">
+                <input type="hidden" id="doctorIdInput" />
+                <div class="search-wrapper">
+                    <input
+                        type="text"
+                        id="searchInput"
+                        placeholder="أدخل رقم المريض أو الاسم"
+                        autocomplete="off"
+                    />
+                    <div id="searchDropdown" class="dropdown"></div>
+                </div>
+                <div id="visitsList"></div>
+                <button id="showAddProcedureBtn">+ إضافة زيارة جديدة</button>
+            </div>
+            <!-- تفاصيل التقرير -->
+            <div class="report-section">
+                <div id="visitReport" class="visit-report">
+                    <div class="empty-report">
+                        <div class="empty-icon">📋</div>
+                        <h4>مرحباً بك</h4>
+                        <p>اختر مريضاً ثم اختر زيارة لعرض التفاصيل</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ====================== الفورم المنبثق لإضافة/تعديل الزيارة ====================== -->
+        <div id="formOverlay" class="form-overlay">
+            <form id="addProcedureForm" class="add-form" onsubmit="return false;">
+                <h2 id="formTitle">
+                    <span class="title-icon">✨</span>
+                    إضافة زيارة جديدة
+                </h2>
+                <input type="hidden" id="visitNumber" />
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>📅 التاريخ</label>
+                        <input type="date" id="newDate" class="form-input" required />
+                    </div>
+                    <div class="form-group">
+                        <label>⏰ الفترة</label>
+                        <select id="newTimeSlot" class="form-input" required>
+                            <option value="">اختر الفترة</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="two-columns">
+                    <div class="section-card">
+                        <div class="section-header">
+                            <span class="section-icon">🩺</span>
+                            <h3>الإجراءات الطبية</h3>
+                        </div>
+                        <div id="procedureContainer" class="checkbox-grid"></div>
+                    </div>
+                    <div class="section-card">
+                        <div class="section-header">
+                            <span class="section-icon">🔬</span>
+                            <h3>الفحوصات المخبرية</h3>
+                        </div>
+                        <div id="labExamsContainer" class="checkbox-grid"></div>
+                    </div>
+                </div>
+
+                <div id="drugsManagementSection" class="drugs-section" style="display: none;">
+                    <div class="section-header">
+                        <span class="section-icon">💊</span>
+                        <h3>أدوية المريض</h3>
+                    </div>
+                    <input type="hidden" id="patientIdInput" />
+                    <input type="hidden" id="doctorIdInput" />
+                    <input type="hidden" id="visitNumberInput" />
+                    <div class="form-group">
+                        <label>أدوية المريض الحالية</label>
+                        <div id="patientDrugsResults" class="drugs-grid"></div>
+                    </div>
+                    <div class="form-group">
+                        <label>إضافة دواء جديد</label>
+                        <input type="text" id="drugSearch" class="form-input" placeholder="اكتب اسم الدواء للبحث..." />
+                        <div id="drugResults" class="drugs-grid"></div>
+                    </div>
+                    <button type="button" id="fetchPatientDrugsBtn" class="hidden-btn" style="display:none;">جلب أدوية المريض</button>
+                    <button type="button" id="saveDrugsBtn" class="save-drugs-btn">💾 حفظ أدوية المريض</button>
+                </div>
+
+                <div class="form-buttons">
+                    <button type="button" id="submitFormBtn" class="btn-primary">
+                        <span class="btn-icon">💾</span>
+                        حفظ الزيارة
+                    </button>
+                    <button type="button" id="saveEditBtn" class="btn-primary btn-edit" style="display: none;">
+                        <span class="btn-icon">✏️</span>
+                        حفظ التعديل
+                    </button>
+                    <button type="button" class="btn-secondary" onclick="toggleForm()">
+                        <span class="btn-icon">✖</span>
+                        إلغاء
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- ====================== مودال الملاحظة ====================== -->
+        <div id="textModal" class="modal">
+            <div class="modal-content fancy-modal">
+                <h3 id="textModalTitle">📝 تعديل المعاينة</h3>
+                <textarea
+                    id="textModalInput"
+                    class="form-input"
+                    rows="5"
+                    placeholder="اكتب الملاحظة هنا..."
+                ></textarea>
+                <div class="modal-actions">
+                    <button class="save-btn" onclick="saveTextData()">💾 حفظ</button>
+                    <button class="cancel-btn" onclick="closeTextModal()">✖ إلغاء</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ====================== مودال الإجراءات ====================== -->
+        <div id="proceduresModal" class="modal">
+            <div class="modal-content fancy-modal">
+                <h3 id="proceduresModalTitle">🩺 تعديل الإجراءات</h3>
+                <div id="proceduresModalContainer" class="modal-checkbox-grid"></div>
+                <div class="modal-actions">
+                    <button class="save-btn" onclick="saveProceduresData()">💾 حفظ</button>
+                    <button class="cancel-btn" onclick="closeProceduresModal()">✖ إلغاء</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ====================== مودال الفحوصات ====================== -->
+        <div id="examsModal" class="modal">
+            <div class="modal-content fancy-modal">
+                <h3 id="examsModalTitle">🔬 تعديل الفحوصات</h3>
+                <div id="examsModalContainer" class="modal-checkbox-grid"></div>
+                <div class="modal-actions">
+                    <button class="save-btn" onclick="saveExamsData()">💾 حفظ</button>
+                    <button class="cancel-btn" onclick="closeExamsModal()">✖ إلغاء</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ====================== مودال العلاج (الأدوية) ====================== -->
+        <div id="drugsModal" class="modal">
+            <div class="modal-content fancy-modal">
+                <h3 id="drugsModalTitle">💊 تعديل العلاج (الأدوية)</h3>
+                <div class="treatment-search">
+                    <input
+                        type="text"
+                        id="drugSearchInput"
+                        class="form-input"
+                        placeholder="🔍 بحث عن دواء..."
+                    />
+                </div>
+                <div id="drugsContainer" class="treatments-grid"></div>
+                <div class="modal-actions">
+                    <button class="save-btn" onclick="saveDrugsData()">💾 حفظ</button>
+                    <button class="cancel-btn" onclick="closeDrugsModal()">✖ إلغاء</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ====================== كرت تفاصيل الدفع المنبثق ====================== -->
+        <div id="paymentModal" class="payment-modal">
+            <div class="payment-card-content">
+                <div class="payment-card-header">
+                    <div class="header-icon">🖐️💰</div>
+                    <h3>تفاصيل المدفوعات</h3>
+                </div>
+                <div class="payment-card-body">
+                    <div class="payment-patient-info" style="display: none">
+                        <div class="payment-patient-details" style="display: none" >
+                            <div class="payment-patient-name">
+                                <span class="label">اسم المريض:</span>
+                                <span id="paymentPatientName">---</span>
+                            </div>
+                            <div class="payment-visit-number">
+                                <span class="label">رقم الزيارة:</span>
+                                <span id="paymentVisitNumber">---</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="payment-total" style="display: none">
+                        <span class="total-label">إجمالي المدفوعات</span>
+                        <span class="total-amount" id="paymentTotalAmount">0</span>
+                        <span class="currency">ريال</span>
+                    </div>
+                    <div class="payment-items-list" id="paymentItemsList"></div>
+                </div>
+                <div class="payment-card-footer">
+                    <button class="close-payment-footer-btn" onclick="closePaymentModal()">إغلاق</button>
+                </div>
+            </div>
+        </div>
+
+        
+    </body>
+</html>
