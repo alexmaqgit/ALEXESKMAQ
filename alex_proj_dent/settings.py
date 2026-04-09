@@ -29,10 +29,9 @@ DEBUG = True
 ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
-    "expertise-fed-cheapest-jackson.trycloudflare.com",  # الرابط من Cloudflared
+    "expertise-fed-cheapest-jackson.trycloudflare.com",
+    "alexeskmaq.onrender.com",  # أضف هذا السطر
 ]
-
-
 # Application definition
 
 INSTALLED_APPS = [
