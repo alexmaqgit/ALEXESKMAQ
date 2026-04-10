@@ -4,7 +4,8 @@ class process_db_ora_mysql:
         from django.db import connection
 
         self.connection = connection
-        self.cursor = connection.cursor()
+        # لا تفتح cursor هنا - سيتم فتحه عند الحاجة
+        self.cursor = None
 
         engine = settings.DATABASES['default']['ENGINE'].lower()
 
@@ -25,6 +26,21 @@ class process_db_ora_mysql:
             self.is_pg = True
         else:
             raise ValueError(f"Unsupported DB engine: {engine}")
+
+    # ============================================================
+    # Helper: الحصول على cursor جديد (آمن)
+    # ============================================================
+    def _get_cursor(self):
+        """إنشاء cursor جديد في كل مرة لضمان عدم إغلاقه"""
+        # أغلق cursor القديم إذا كان موجوداً
+        if self.cursor is not None:
+            try:
+                self.cursor.close()
+            except:
+                pass
+        # افتح cursor جديد
+        self.cursor = self.connection.cursor()
+        return self.cursor
 
     # ============================================================
     # Helper: Fix table name for PostgreSQL (حل عام)
@@ -107,6 +123,7 @@ class process_db_ora_mysql:
     def execute_bulk(self, tramo):
         success = []
         select_results = {}
+        cursor = self._get_cursor()  # احصل على cursor جديد
 
         try:
             for table_name, actions in tramo.items():
@@ -118,16 +135,16 @@ class process_db_ora_mysql:
                     action_copy = action.copy() if isinstance(action, dict) else action
 
                     if action_copy.get("create") and "columns" in action_copy:
-                        self._create_table(fixed_table_name, action_copy)
+                        self._create_table(cursor, fixed_table_name, action_copy)
                     elif action_copy.get("delete"):
-                        self._delete(fixed_table_name, action_copy)
+                        self._delete(cursor, fixed_table_name, action_copy)
                     elif action_copy.get("insert"):
-                        self._insert(fixed_table_name, action_copy)
+                        self._insert(cursor, fixed_table_name, action_copy)
                     elif action_copy.get("update"):
-                        self._update(fixed_table_name, action_copy)
+                        self._update(cursor, fixed_table_name, action_copy)
                     elif action_copy.get("select"):
-                        result = self._select(fixed_table_name, action_copy)
-                        select_results[table_name] = result  # نحتفظ بالاسم الأصلي في النتيجة
+                        result = self._select(cursor, fixed_table_name, action_copy)
+                        select_results[table_name] = result
                     else:
                         raise ValueError("❌ Unknown action type")
 
@@ -143,7 +160,7 @@ class process_db_ora_mysql:
     # ============================================================
     # CREATE TABLE
     # ============================================================
-    def _create_table(self, table_name, action):
+    def _create_table(self, cursor, table_name, action):
         columns = action["columns"]
         primary_key = action.get("primary_key")
         column_defs = []
@@ -162,33 +179,33 @@ class process_db_ora_mysql:
                 column_defs.append(f"PRIMARY KEY (`{primary_key}`)")
 
         if self.is_oracle:
-            self.cursor.execute(
+            cursor.execute(
                 "SELECT COUNT(*) FROM user_tables WHERE table_name = :t",
                 {"t": table_name.upper()}
             )
-            exists = self.cursor.fetchone()[0]
+            exists = cursor.fetchone()[0]
             if not exists:
                 sql = f"CREATE TABLE {table_name} ({', '.join(column_defs)})"
-                self.cursor.execute(sql)
+                cursor.execute(sql)
         elif self.is_mysql:
             sql = f"""
                 CREATE TABLE IF NOT EXISTS `{table_name}` (
                     {', '.join(column_defs)}
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
             """
-            self.cursor.execute(sql)
+            cursor.execute(sql)
         elif self.is_pg:
             sql = f"""
                 CREATE TABLE IF NOT EXISTS {table_name} (
                     {', '.join(column_defs)}
                 );
             """
-            self.cursor.execute(sql)
+            cursor.execute(sql)
 
     # ============================================================
     # DELETE
     # ============================================================
-    def _delete(self, table_name, action):
+    def _delete(self, cursor, table_name, action):
         sql = f"DELETE FROM {table_name}"
         params = None
 
@@ -197,12 +214,12 @@ class process_db_ora_mysql:
         if action.get("params"):
             params = action["params"]
 
-        self.cursor.execute(sql, params)
+        cursor.execute(sql, params)
 
     # ============================================================
     # INSERT
     # ============================================================
-    def _insert(self, table_name, action):
+    def _insert(self, cursor, table_name, action):
         data = {
             k: v for k, v in action.items()
             if k not in ("insert", "update", "delete", "condition", "create", "columns", "primary_key", "params", "set")
@@ -217,12 +234,12 @@ class process_db_ora_mysql:
             params = list(data.values())
 
         sql = f"INSERT INTO {table_name} ({cols}) VALUES ({vals})"
-        self.cursor.execute(sql, params)
+        cursor.execute(sql, params)
 
     # ============================================================
     # UPDATE
     # ============================================================
-    def _update(self, table_name, action):
+    def _update(self, cursor, table_name, action):
         set_data = action.get("set", {})
         condition = action.get("condition")
         if not condition:
@@ -242,12 +259,12 @@ class process_db_ora_mysql:
                 params += action["params"]
 
         sql = f"UPDATE {table_name} SET {set_clause} WHERE {condition}"
-        self.cursor.execute(sql, params)
+        cursor.execute(sql, params)
 
     # ============================================================
     # SELECT
     # ============================================================
-    def _select(self, table_name, action):
+    def _select(self, cursor, table_name, action):
         sql = f"SELECT * FROM {table_name}"
         params = None
 
@@ -259,9 +276,9 @@ class process_db_ora_mysql:
         if action.get("params"):
             params = action["params"]
 
-        self.cursor.execute(sql, params)
+        cursor.execute(sql, params)
 
-        rows = self.cursor.fetchall()
-        cols = [col[0] for col in self.cursor.description]
+        rows = cursor.fetchall()
+        cols = [col[0] for col in cursor.description]
 
         return [dict(zip(cols, row)) for row in rows]

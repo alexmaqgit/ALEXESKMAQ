@@ -1,0 +1,36 @@
+# render.yaml
+services:
+  - type: web
+    name: alex-proj-dent  # اسم التطبيق في Render
+    runtime: python
+    plan: free  # أو أي خطة تختارها
+    buildCommand: "./build.sh" # سننشئ هذا الملف بعد قليل
+    startCommand: "gunicorn alex_proj_dent.wsgi:application"
+    envVars:
+      - key: DJANGO_SECRET_KEY
+        generateValue: true
+      - key: DB_NAME
+        fromDatabase:
+          name: alex-dent-db  # يجب أن يتطابق مع اسم قاعدة البيانات أدناه
+          property: database
+      - key: DB_USER
+        fromDatabase:
+          name: alex-dent-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: alex-dent-db
+          property: password
+      - key: DB_HOST
+        fromDatabase:
+          name: alex-dent-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: alex-dent-db
+          property: port
+
+  - type: postgresql  # هذا سيطلب من Render إنشاء قاعدة بيانات لك
+    name: alex-dent-db
+    database: alex_dent
+    user: postgres

@@ -1,0 +1,16 @@
+services:
+  web:
+    build: .
+    container_name: django_app_render
+    restart: always
+    command: sh -c "sleep 5 && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    environment:
+      - DB_NAME=alex_dent_db
+      - DB_USER=alex_dent_db_user
+      - DB_PASSWORD=AQg6T0dSd2EIVEIa3eROY6H972zJFUjF
+      - DB_HOST=dpg-d7bvqg1f9bms738l4urg-a.oregon-postgres.render.com
+      - DB_PORT=5432

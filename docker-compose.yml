@@ -1,6 +1,6 @@
 services:
   db:
-    image: postgres:14 # بدل 15
+    image: postgres:14
     container_name: postgres_db
     restart: always
     environment:
@@ -12,6 +12,7 @@ services:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - "5432:5432"
+
   web:
     build: .
     container_name: django_app
@@ -21,6 +22,12 @@ services:
       - .:/app
     ports:
       - "8000:8000"
+    environment:
+      - DB_NAME=alex_dent
+      - DB_USER=postgres
+      - DB_PASSWORD=esk777513858
+      - DB_HOST=db
+      - DB_PORT=5432
     depends_on:
       - db
 
