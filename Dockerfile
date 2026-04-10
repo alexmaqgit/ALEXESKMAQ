@@ -20,8 +20,11 @@ RUN pip install --no-cache-dir --upgrade pip setuptools wheel && \
 # نسخ المشروع
 COPY . .
 
+# نسخ ملف إعدادات gunicorn
+COPY gunicorn.conf.py /app/gunicorn.conf.py
+
 # فتح البورت
 EXPOSE 8000
 
-# تشغيل Gunicorn
-CMD ["gunicorn", "alex_proj_dent.wsgi:application", "--bind", "0.0.0.0:8000"]
+# تشغيل Gunicorn مع الإعدادات
+CMD ["gunicorn", "--config", "gunicorn.conf.py", "alex_proj_dent.wsgi:application"]
