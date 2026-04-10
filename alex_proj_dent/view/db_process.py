@@ -42,6 +42,27 @@ class process_db_ora_mysql:
         return f'"ALEX_DENT"."{table_name.upper()}"'
 
     # ============================================================
+    # Helper: Normalize column names case for PostgreSQL
+    # ============================================================
+    def _normalize_condition_case(self, condition):
+        """تحويل أسماء الأعمدة في الشرط إلى uppercase لـ PostgreSQL"""
+        if not self.is_pg or not condition:
+            return condition
+        
+        import re
+        # الكلمات المفتاحية التي لا نحولها
+        sql_keywords = {'select', 'from', 'where', 'insert', 'update', 'delete', 'and', 'or', 'not', 'in', 'like', 'between', 'is', 'null', 'true', 'false', 'order', 'by', 'group', 'having', 'limit', 'offset', 'join', 'left', 'right', 'inner', 'outer', 'on', 'as', 'distinct', 'count', 'sum', 'avg', 'min', 'max'}
+        
+        def to_upper_if_column(match):
+            word = match.group(0)
+            if word.lower() not in sql_keywords:
+                return word.upper()
+            return word
+        
+        # تطابق الكلمات (أسماء الأعمدة المحتملة)
+        return re.sub(r'\b[a-zA-Z_][a-zA-Z0-9_]*\b', to_upper_if_column, condition)
+
+    # ============================================================
     # Helper: Quote column names in WHERE clause for PostgreSQL only
     # ============================================================
     def _quote_columns(self, condition):
@@ -127,7 +148,7 @@ class process_db_ora_mysql:
                         self._update(fixed_table_name, action_copy)
                     elif action_copy.get("select"):
                         result = self._select(fixed_table_name, action_copy)
-                        select_results[table_name] = result  # نحتفظ بالاسم الأصلي في النتيجة
+                        select_results[table_name] = result
                     else:
                         raise ValueError("❌ Unknown action type")
 
@@ -253,8 +274,10 @@ class process_db_ora_mysql:
 
         if action.get("condition"):
             condition = action["condition"]
-            # فقط لـ PostgreSQL: أضف علامات تنصيص لأسماء الأعمدة
-            condition = self._quote_columns(condition)
+            # فقط لـ PostgreSQL: حول أسماء الأعمدة إلى uppercase ثم أضف علامات تنصيص
+            if self.is_pg:
+                condition = self._normalize_condition_case(condition)
+                condition = self._quote_columns(condition)
             sql += " WHERE " + condition
         if action.get("params"):
             params = action["params"]
